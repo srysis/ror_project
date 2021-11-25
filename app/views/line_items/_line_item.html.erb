@@ -1,0 +1,10 @@
+<% if line_item == @current_item %>
+	<tr class="line-item-highlight">
+<% else %>
+	<tr>
+<% end %>
+	<td class = "count"><%= line_item.count %></td>
+	<td class = "title"><%= line_item.game.title %></td>
+	<td class = "price"><%= line_item.total_price %></td>
+	<td><%= button_to "Remove", line_item, class: "remove_item", method: :delete %></td>
+</tr>

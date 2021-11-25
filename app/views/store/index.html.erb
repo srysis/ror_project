@@ -1,0 +1,21 @@
+<% if notice %>
+	<aside id="notice"><%= notice %></aside>
+<% end %>
+
+<div id="catalog">
+	<% cache @games do %>
+		<% @games.each do |game| %>
+			<% cache game do %>
+				<div id = "game">
+					<div id = "image">
+						<%= image_tag(game.image) %><br>
+					</div>
+					<h2 class = "title"><%= game.title %></h2>
+					<p class = "genre"><%= game.genre %></p>
+					<p class = "description"><%= game.description %></p>
+					<div class="buy"><span class = "price"><%= game.price %></span><%= button_to 'Add to cart', line_items_path(game_id: game), remote: true %></div>
+				</div>
+			<% end %>
+		<% end %>	
+	<% end %>
+</div>

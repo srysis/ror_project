@@ -1,0 +1,27 @@
+<table>
+  <tbody>
+    <% @games.each do |game| %>
+      <tr class="<%= cycle('odd', 'even') %>">
+        <td class = "info"><%= image_tag(game.image) %><br><h2><%= game.title %></h2></td>
+        <td class = "description"><strong><%= game.description %></strong></td>
+        <td class = "genre"><p><%= game.genre %></p></td>
+        <td class = "price"><%= game.price %></td>
+        <td class="actions">
+          <ul>
+            <li><%= link_to 'Show', game %></li>
+            <li><%= link_to 'Edit', edit_game_path(game) %></li>
+            <li>
+              <%= link_to 'Destroy',
+              game,
+              method: :delete,
+              data: { confirm: 'Are you sure?' } %>
+            </li>
+          </ul>
+        </td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+<%= link_to 'Add Game', new_game_path %>

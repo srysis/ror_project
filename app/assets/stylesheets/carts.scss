@@ -1,0 +1,112 @@
+// Place all the styles related to the Carts controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: https://sass-lang.com/
+.carts {
+	margin: 33px 43px;
+	font-size: 20px;
+	width: 520px;
+
+	article {
+		padding: 10px;
+		border-radius: 8px;
+		background-color: white;
+		color: black;
+	}
+
+	h2 {
+		text-align: center;
+	}
+
+	table {
+		border-collapse: collapse;
+	}
+	td {
+		font-size: 20px;
+		padding: 0.5em;
+		border-bottom: 1px solid black;
+		line-height: 25px;
+		width: 400px;
+	}
+	td.count {
+		white-space: nowrap;
+	}
+	td.count::after {
+		content: " ×";
+	}
+	td.title {
+		font-weight: bold;
+	}
+	td.price {
+		font-size: 22px;
+		font-weight: bold;
+		text-align: right;
+	}
+	td.price::after {
+		content: "₴";
+	}
+	tfoot {
+		th, th.price {
+			font-weight: bold;
+			font-size: 24px;
+		}
+		th {
+			text-align: right;
+		}
+		td.price {
+			border-bottom: none;
+		}
+		td.price::after {
+			content: "₴";
+		}
+	}
+
+	.button_to {
+		display: inline;
+	}
+	
+	input[type="submit"] {
+		background-color: #943434;
+		border-radius: 0.354em;
+		border: solid thin #441;
+		color: white;
+		font-size: 1em;
+		padding: 0.25em 1em;
+	}
+
+	input[type="submit"]:hover {
+		cursor: pointer;
+	}
+
+	input[type="submit"].remove_item {
+		float: right;
+	}
+
+	input[type="submit"].remove_item:hover {
+		background-color: #ac4141;
+	}
+
+	input[type="submit"].remove, input[type="submit"].checkout {
+		padding: 10px 25px;
+		border-radius: 0.5em;
+	}
+
+	input[type="submit"].remove {
+		background-color: #b23131;
+		margin-right: 2.5%;
+	}
+
+	input[type="submit"].checkout {
+		background-color: #24aa24;
+		color: black;
+		font-weight: bold;
+		float: right;
+	}
+
+	input[type="submit"].remove:hover {
+		background-color: #cd3939;
+	}
+
+	input[type="submit"].checkout:hover {
+		background-color: #20de20;
+	}
+}

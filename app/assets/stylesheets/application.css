@@ -1,0 +1,128 @@
+/*
+ * This is a manifest file that'll be compiled into application.css, which will include all the files
+ * listed below.
+ *
+ * Any CSS and SCSS file within this directory, lib/assets/stylesheets, or any plugin's
+ * vendor/assets/stylesheets directory can be referenced here using a relative path.
+ *
+ * You're free to add application-wide styles to this file and they'll appear at the bottom of the
+ * compiled file so the styles you add here take precedence over styles defined in any other CSS/SCSS
+ * files in this directory. Styles in this file should be added after the last require_* statement.
+ * It is generally better to create a new file per style scope.
+ *
+ *= require_tree .
+ *= require_self
+ */
+
+body {
+    margin: 0;
+}
+
+header.main {
+    background-color: #213a7a;
+    text-align: left;
+    font-size: 31px;
+    padding: 30px 20px;
+}
+
+header.main img {
+    float: left;
+    padding: 0 30px;
+    width: 200px;
+}
+
+header.main nav a {
+    display: inline;
+    color: white;
+    font-weight: bold;
+    text-decoration: none;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    margin-right: 20px;
+    padding: 15px;
+    border-radius: 10px;
+}
+
+header.main nav a:hover {
+    background-color: #1b2641;
+}
+
+.notice, #notice {
+    background: #ffb;
+    border-radius: 0.5em;
+    border: solid 0.177em #882;
+    color: #882;
+    font-weight: bold;
+    margin-bottom: 1em;
+    padding: 1em 1.414em;
+    text-align: center;
+    width: 450px;
+}
+
+.checkout_form {
+    padding: 3px 43px;
+    width: 600px;
+}
+
+.checkout_form h1 {
+    font-size: 2em;
+}
+
+.checkout_form .field, .checkout_form .actions {
+    padding: 0;
+    margin-bottom: 20px;
+}
+
+.checkout_form input[type="text"], .checkout_form input[type="email"], .checkout_form textarea, .checkout_form select, .checkout_form option {
+    border: solid thin #888;
+    box-sizing: border-box;
+    font-size: 1.1em;
+}
+
+.checkout_form textarea {
+    resize: none;
+}
+
+.checkout_form label {
+    font-size: 1.3em;
+}
+
+.checkout_form input[type="submit"] {
+    padding: 10px 25px;
+    border-radius: 0.5em;
+    background-color: #24aa24;
+    color: black;
+    font-size: 1.41em;
+    font-weight: bold;
+}
+
+.checkout_form input[type="submit"]:hover {
+    background-color: #20de20;
+    cursor: pointer;
+}
+
+#error_explanation {
+    width: 600px;
+}
+
+#error_explanation h2 {
+    font-size: 20px;
+}
+
+#error_explanation ul li {
+    font-size: 18px;
+    line-height: 26px;
+}
+
+.field_with_errors {
+    background: none;
+    color: red;
+}
+
+.field_with_errors label {
+    font-weight: bold;
+}
+
+.field_with_errors input[type="text"], .depot_form input[type="email"], .field_with_errors textarea {
+    background: pink;
+}

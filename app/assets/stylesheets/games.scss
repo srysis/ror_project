@@ -1,0 +1,88 @@
+// Place all the styles related to the Games controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: https://sass-lang.com/
+
+
+#shop_body {
+	background-color: #0a0f1c;
+	color: white;
+	font-size: 18px;
+	line-height: 30px;
+}
+
+#error_explanation {
+	color: black;
+}
+
+.games {
+	padding: 33px 43px;
+	margin: 0;
+
+	h1, h2 {
+		text-align: center;
+	}
+
+	h2 {
+		font-style: italic;
+	}
+
+	table, td {
+		text-align: center;
+	}
+
+	tr {
+		background-color: #131d38;
+	}
+
+	td {
+		padding: 5px;
+		height: 70px;
+	}
+
+	td.info {
+		text-align: center;
+		width: 150px;
+	}
+
+	td.info h2 {
+		margin: 0;
+		padding: 3px;
+		font-style: normal;
+	}
+
+	td.info img {
+		width: 100px;
+		padding: 5px;
+	}
+
+	td.description {
+		width: 75%;
+		font-size: 20px;
+		line-height: 26px;
+	}
+
+	td.genre p {
+		font-size: 18px;
+		font-style: italic;
+		font-weight: bold;
+	}
+
+	td.price {
+		font-size: 24px;
+		font-style: italic;
+	}
+
+	a:last-child {
+		border: 2px solid black;
+		border-radius: 10px;
+		padding: 7px;
+		background-color: #3c4459;
+		color: white;
+		font-size: 22px;
+		text-decoration: none;
+	}
+
+	a:last-child:hover {
+		background-color: #4e5974;
+	}
+}

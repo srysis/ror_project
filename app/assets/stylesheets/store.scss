@@ -1,0 +1,96 @@
+// Place all the styles related to the Store controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: https://sass-lang.com/
+.store {
+	margin: 33px;
+
+	h1, h2 {
+		text-align: center;
+	}
+
+	a {
+		text-decoration: none;
+		color: white;
+	}
+
+	div#catalog {
+		border-top: 3px solid #ddd;
+		list-style: none;
+		font-size: 20px;
+
+		#game {
+			padding: 0.6em;
+			border-bottom: 1px solid #ddd;
+			border-radius: 3px;
+
+			&::after {
+				clear: both;
+				content: " ";
+				display: block;
+			}
+
+			h2 {
+				text-align: left;
+				font-size: 30px;
+			}
+
+			img {
+				float: left;
+				width: 180px;
+				padding: 0.4em;
+				margin-right: 0.4em;
+				margin-bottom: 0.4em;
+			}
+
+			.title {
+				margin-top: -5px;
+			}
+
+			.genre {
+				display: inline;
+				border: 1px solid #1c3065;
+				border-radius: 10px;
+				padding: 5px;
+				background-color: #1c3065;
+				color: #4a71ef;
+				font-size: 17px;
+				font-weight: bold;
+				font-style: italic;
+			}
+
+			.description {
+				font-size: 19px;
+				font-weight: bold;
+				line-height: 24px;
+			}
+
+			.price {
+				font-size: 26px;
+				font-style: italic;
+				margin-right: 20px;
+			}
+
+			.price:after {
+				content: "₴";
+			}
+
+			form, div {
+				display: inline;
+			}
+
+			input[type="submit"] {
+				background-color: #282;
+				border-radius: 0.354em;
+				border: solid thin #441;
+				color: white;
+				font-size: 1em;
+				padding: 0.25em 1em;
+			}
+			input[type="submit"]:hover {
+				background-color: #429e42;
+				cursor: pointer;
+			}
+		}
+	}
+
+}

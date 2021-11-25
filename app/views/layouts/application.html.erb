@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>GamesShop</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+    <%= csrf_meta_tags %>
+    <%= csp_meta_tag %>
+
+    <%= stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload' %>
+    <%= javascript_pack_tag 'application', 'data-turbolinks-track': 'reload' %>
+  </head>
+
+  <body id = "shop_body">
+    <header class = "main">
+      <%= image_tag 'logo1.svg', alt: 'title' %>
+      <nav>
+        <a href = "#">Home</a>
+        <a href = "#">FAQ</a>
+        <a href = "#">Contacts</a>
+      </nav>
+    </header>
+    <% if @cart %>
+      <div id = "cart" class = "carts">
+        <%= render_if @cart && @cart.line_items.any?, @cart %>
+      </div>
+    <% end %>
+    <main class = '<%= controller.controller_name %>'>
+      <%= yield %>
+    </main>
+  </body>
+</html>
