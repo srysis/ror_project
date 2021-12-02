@@ -1702,3 +1702,1523 @@ Processing by LineItemsController#edit as HTML
   Rendered layout layouts/application.html.erb (Duration: 10.5ms | Allocations: 2779)
 Completed 200 OK in 12ms (Views: 11.0ms | ActiveRecord: 0.1ms | Allocations: 3382)
   [1m[36mTRANSACTION (0.2ms)[0m  [1m[31mrollback transaction[0m
+  [1m[35m (0.5ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (1.3ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ?[0m  [["key", "schema_sha1"]]
+  [1m[35m (0.6ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (1.6ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ?[0m  [["key", "environment"]]
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ?[0m  [["key", "environment"]]
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ?[0m  [["key", "environment"]]
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE IF EXISTS "carts"[0m
+  [1m[35m (18.3ms)[0m  [1m[35mCREATE TABLE "carts" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE IF EXISTS "games"[0m
+  [1m[35m (18.2ms)[0m  [1m[35mCREATE TABLE "games" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "image" varchar, "title" varchar, "description" text, "genre" varchar, "price" decimal, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE IF EXISTS "line_items"[0m
+  [1m[35m (16.8ms)[0m  [1m[35mCREATE TABLE "line_items" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "game_id" integer NOT NULL, "cart_id" integer, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, "count" integer DEFAULT 1, "order_id" integer)[0m
+  [1m[35m (13.9ms)[0m  [1m[35mCREATE INDEX "index_line_items_on_cart_id" ON "line_items" ("cart_id")[0m
+  [1m[35m (12.0ms)[0m  [1m[35mCREATE INDEX "index_line_items_on_game_id" ON "line_items" ("game_id")[0m
+  [1m[35m (13.3ms)[0m  [1m[35mCREATE INDEX "index_line_items_on_order_id" ON "line_items" ("order_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE IF EXISTS "orders"[0m
+  [1m[35m (13.0ms)[0m  [1m[35mCREATE TABLE "orders" ("id" integer PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar, "address" text, "email" varchar, "pay_type" integer, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE TEMPORARY TABLE "aline_items" ("id" integer NOT NULL PRIMARY KEY, "game_id" integer NOT NULL, "cart_id" integer DEFAULT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, "count" integer DEFAULT 1, "order_id" integer DEFAULT NULL)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "tindex_aline_items_on_order_id" ON "aline_items" ("order_id")[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE INDEX "tindex_aline_items_on_game_id" ON "aline_items" ("game_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "tindex_aline_items_on_cart_id" ON "aline_items" ("cart_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[32mINSERT INTO "aline_items" ("id","game_id","cart_id","created_at","updated_at","count","order_id")
+                     SELECT "id","game_id","cart_id","created_at","updated_at","count","order_id" FROM "line_items"[0m
+  [1m[35m (2.5ms)[0m  [1m[35mDROP TABLE "line_items"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE TABLE "line_items" ("id" integer NOT NULL PRIMARY KEY, "game_id" integer NOT NULL, "cart_id" integer DEFAULT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, "count" integer DEFAULT 1, "order_id" integer DEFAULT NULL, CONSTRAINT "fk_rails_af645e8e5f"
+FOREIGN KEY ("cart_id")
+  REFERENCES "carts" ("id")
+)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "index_line_items_on_cart_id" ON "line_items" ("cart_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "index_line_items_on_game_id" ON "line_items" ("game_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "index_line_items_on_order_id" ON "line_items" ("order_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[32mINSERT INTO "line_items" ("id","game_id","cart_id","created_at","updated_at","count","order_id")
+                     SELECT "id","game_id","cart_id","created_at","updated_at","count","order_id" FROM "aline_items"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE "aline_items"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[36mTRANSACTION (15.9ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE TEMPORARY TABLE "aline_items" ("id" integer NOT NULL PRIMARY KEY, "game_id" integer NOT NULL, "cart_id" integer DEFAULT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, "count" integer DEFAULT 1, "order_id" integer DEFAULT NULL)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "tindex_aline_items_on_order_id" ON "aline_items" ("order_id")[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE INDEX "tindex_aline_items_on_game_id" ON "aline_items" ("game_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "tindex_aline_items_on_cart_id" ON "aline_items" ("cart_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[32mINSERT INTO "aline_items" ("id","game_id","cart_id","created_at","updated_at","count","order_id")
+                     SELECT "id","game_id","cart_id","created_at","updated_at","count","order_id" FROM "line_items"[0m
+  [1m[35m (2.7ms)[0m  [1m[35mDROP TABLE "line_items"[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE TABLE "line_items" ("id" integer NOT NULL PRIMARY KEY, "game_id" integer NOT NULL, "cart_id" integer DEFAULT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, "count" integer DEFAULT 1, "order_id" integer DEFAULT NULL, CONSTRAINT "fk_rails_af645e8e5f"
+FOREIGN KEY ("cart_id")
+  REFERENCES "carts" ("id")
+, CONSTRAINT "fk_rails_04127112e7"
+FOREIGN KEY ("game_id")
+  REFERENCES "games" ("id")
+)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "index_line_items_on_cart_id" ON "line_items" ("cart_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "index_line_items_on_game_id" ON "line_items" ("game_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "index_line_items_on_order_id" ON "line_items" ("order_id")[0m
+  [1m[35m (0.3ms)[0m  [1m[32mINSERT INTO "line_items" ("id","game_id","cart_id","created_at","updated_at","count","order_id")
+                     SELECT "id","game_id","cart_id","created_at","updated_at","count","order_id" FROM "aline_items"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE "aline_items"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[36mTRANSACTION (13.9ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[35m (0.5ms)[0m  [1m[35mCREATE TEMPORARY TABLE "aline_items" ("id" integer NOT NULL PRIMARY KEY, "game_id" integer NOT NULL, "cart_id" integer DEFAULT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, "count" integer DEFAULT 1, "order_id" integer DEFAULT NULL)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "tindex_aline_items_on_order_id" ON "aline_items" ("order_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "tindex_aline_items_on_game_id" ON "aline_items" ("game_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "tindex_aline_items_on_cart_id" ON "aline_items" ("cart_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[32mINSERT INTO "aline_items" ("id","game_id","cart_id","created_at","updated_at","count","order_id")
+                     SELECT "id","game_id","cart_id","created_at","updated_at","count","order_id" FROM "line_items"[0m
+  [1m[35m (2.5ms)[0m  [1m[35mDROP TABLE "line_items"[0m
+  [1m[35m (0.2ms)[0m  [1m[35mCREATE TABLE "line_items" ("id" integer NOT NULL PRIMARY KEY, "game_id" integer NOT NULL, "cart_id" integer DEFAULT NULL, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL, "count" integer DEFAULT 1, "order_id" integer DEFAULT NULL, CONSTRAINT "fk_rails_04127112e7"
+FOREIGN KEY ("game_id")
+  REFERENCES "games" ("id")
+, CONSTRAINT "fk_rails_af645e8e5f"
+FOREIGN KEY ("cart_id")
+  REFERENCES "carts" ("id")
+, CONSTRAINT "fk_rails_2dc2e5c22c"
+FOREIGN KEY ("order_id")
+  REFERENCES "orders" ("id")
+)[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "index_line_items_on_cart_id" ON "line_items" ("cart_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "index_line_items_on_game_id" ON "line_items" ("game_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[35mCREATE INDEX "index_line_items_on_order_id" ON "line_items" ("order_id")[0m
+  [1m[35m (0.1ms)[0m  [1m[32mINSERT INTO "line_items" ("id","game_id","cart_id","created_at","updated_at","count","order_id")
+                     SELECT "id","game_id","cart_id","created_at","updated_at","count","order_id" FROM "aline_items"[0m
+  [1m[35m (0.1ms)[0m  [1m[35mDROP TABLE "aline_items"[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[36mTRANSACTION (14.6ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (14.6ms)[0m  [1m[35mCREATE TABLE "schema_migrations" ("version" varchar NOT NULL PRIMARY KEY)[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (12.3ms)[0m  [1m[32mINSERT INTO "schema_migrations" (version) VALUES (20211123154258)[0m
+  [1m[35m (9.9ms)[0m  [1m[32mINSERT INTO "schema_migrations" (version) VALUES
+(20211105140634),
+(20211112145116),
+(20211112150106),
+(20211112154737),
+(20211112155222),
+(20211123154224);
+
+[0m
+  [1m[35m (12.0ms)[0m  [1m[35mCREATE TABLE "ar_internal_metadata" ("key" varchar NOT NULL PRIMARY KEY, "value" varchar, "created_at" datetime(6) NOT NULL, "updated_at" datetime(6) NOT NULL)[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.2ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? LIMIT ?[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mActiveRecord::InternalMetadata Create (2.7ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["key", "environment"], ["value", "test"], ["created_at", "2021-11-29 16:08:25.641454"], ["updated_at", "2021-11-29 16:08:25.641454"]]
+  [1m[36mTRANSACTION (10.7ms)[0m  [1m[36mcommit transaction[0m
+  [1m[36mActiveRecord::InternalMetadata Load (0.1ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? LIMIT ?[0m  [["key", "environment"], ["LIMIT", 1]]
+  [1m[36mActiveRecord::InternalMetadata Load (0.1ms)[0m  [1m[34mSELECT "ar_internal_metadata".* FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ? LIMIT ?[0m  [["key", "schema_sha1"], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mActiveRecord::InternalMetadata Create (1.2ms)[0m  [1m[32mINSERT INTO "ar_internal_metadata" ("key", "value", "created_at", "updated_at") VALUES (?, ?, ?, ?)[0m  [["key", "schema_sha1"], ["value", "cc56f1a336a6d8cafb3e65a2cb513b978ec74b47"], ["created_at", "2021-11-29 16:08:25.658933"], ["updated_at", "2021-11-29 16:08:25.658933"]]
+  [1m[36mTRANSACTION (10.4ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA defer_foreign_keys[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mFixtures Load (5.2ms)[0m  [1m[31mDELETE FROM "carts";
+DELETE FROM "games";
+DELETE FROM "line_items";
+DELETE FROM "orders";
+INSERT INTO "carts" ("id", "created_at", "updated_at") VALUES (980190962, '2021-11-29 16:08:31.887144', '2021-11-29 16:08:31.887144');
+INSERT INTO "carts" ("id", "created_at", "updated_at") VALUES (298486374, '2021-11-29 16:08:31.887144', '2021-11-29 16:08:31.887144');
+INSERT INTO "games" ("id", "image", "title", "description", "genre", "price", "created_at", "updated_at") VALUES (980190962, 'MyString', 'MyString', 'MyText', 'MyString', 9.99, '2021-11-29 16:08:31.891083', '2021-11-29 16:08:31.891083');
+INSERT INTO "games" ("id", "image", "title", "description", "genre", "price", "created_at", "updated_at") VALUES (298486374, 'MyString', 'MyString', 'MyText', 'MyString', 9.99, '2021-11-29 16:08:31.891083', '2021-11-29 16:08:31.891083');
+INSERT INTO "line_items" ("id", "game_id", "cart_id", "created_at", "updated_at") VALUES (980190962, 298486374, 980190962, '2021-11-29 16:08:31.898074', '2021-11-29 16:08:31.898074');
+INSERT INTO "line_items" ("id", "game_id", "created_at", "updated_at", "order_id") VALUES (298486374, 671447580, '2021-11-29 16:08:31.898074', '2021-11-29 16:08:31.898074', 980190962);
+INSERT INTO "orders" ("id", "name", "address", "email", "pay_type", "created_at", "updated_at") VALUES (980190962, 'Dave Thomas', 'MyText', 'dave@example.org', 0, '2021-11-29 16:08:31.900140', '2021-11-29 16:08:31.900140');
+INSERT INTO "orders" ("id", "name", "address", "email", "pay_type", "created_at", "updated_at") VALUES (298486374, 'MyString', 'MyText', 'MyString', 1, '2021-11-29 16:08:31.900140', '2021-11-29 16:08:31.900140')[0m
+  [1m[36mTRANSACTION (15.7ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+-----------------------------------
+OrdersTest: test_destroying_a_Order
+-----------------------------------
+  [1m[36mOrder Load (0.2ms)[0m  [1m[34mSELECT "orders".* FROM "orders" WHERE "orders"."id" = ? LIMIT ?[0m  [["id", 980190962], ["LIMIT", 1]]
+Started GET "/orders" for 127.0.0.1 at 2021-11-29 18:08:33 +0200
+Processing by OrdersController#index as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering orders/index.html.erb within layouts/application
+  [1m[36mOrder Load (0.2ms)[0m  [1m[34mSELECT "orders".* FROM "orders"[0m
+  Rendered orders/index.html.erb within layouts/application (Duration: 5.3ms | Allocations: 1063)
+[Webpacker] Compiling...
+[Webpacker] Compiled all packs in /home/srysis/Ruby/Lab_9/Shop_Project/public/packs-test
+[Webpacker] Hash: d02b75a4419dae4f46ac
+Version: webpack 4.46.0
+Time: 4195ms
+Built at: 11/29/2021 6:08:46 PM
+                                     Asset      Size       Chunks                         Chunk Names
+    js/application-538dee5cf3b292b33929.js   147 KiB  application  [emitted] [immutable]  application
+js/application-538dee5cf3b292b33929.js.map   163 KiB  application  [emitted] [dev]        application
+    js/hello_react-07d0882700f9067e5fa6.js  1.09 MiB  hello_react  [emitted] [immutable]  hello_react
+js/hello_react-07d0882700f9067e5fa6.js.map  1.26 MiB  hello_react  [emitted] [dev]        hello_react
+       js/pay_type-bf086119b538894a91cf.js  1.08 MiB     pay_type  [emitted] [immutable]  pay_type
+   js/pay_type-bf086119b538894a91cf.js.map  1.23 MiB     pay_type  [emitted] [dev]        pay_type
+                             manifest.json  1.06 KiB               [emitted]              
+Entrypoint application = js/application-538dee5cf3b292b33929.js js/application-538dee5cf3b292b33929.js.map
+Entrypoint hello_react = js/hello_react-07d0882700f9067e5fa6.js js/hello_react-07d0882700f9067e5fa6.js.map
+Entrypoint pay_type = js/pay_type-bf086119b538894a91cf.js js/pay_type-bf086119b538894a91cf.js.map
+[./app/javascript/PayTypeSelector/CheckPayType.jsx] 4.84 KiB {pay_type} [built]
+[./app/javascript/PayTypeSelector/CreditCardPayType.jsx] 4.94 KiB {pay_type} [built]
+[./app/javascript/PayTypeSelector/NoPayType.jsx] 3.34 KiB {pay_type} [built]
+[./app/javascript/PayTypeSelector/PurchaseOrderPayType.jsx] 4.15 KiB {pay_type} [built]
+[./app/javascript/PayTypeSelector/index.jsx] 6.16 KiB {pay_type} [built]
+[./app/javascript/channels sync recursive _channel\.js$] ./app/javascript/channels sync _channel\.js$ 183 bytes {application} [built]
+[./app/javascript/channels/consumer.js] 269 bytes {application} [built]
+[./app/javascript/channels/games_channel.js] 477 bytes {application} [optional] [built]
+[./app/javascript/channels/index.js] 211 bytes {application} [built]
+[./app/javascript/packs/application.js] 492 bytes {application} [built]
+[./app/javascript/packs/hello_react.jsx] 1.07 KiB {hello_react} [built]
+[./app/javascript/packs/pay_type.jsx] 527 bytes {pay_type} [built]
+[./node_modules/webpack/buildin/module.js] (webpack)/buildin/module.js 552 bytes {application} [built]
+    + 19 hidden modules
+
+  Rendered layout layouts/application.html.erb (Duration: 12138.6ms | Allocations: 54991)
+Completed 200 OK in 12156ms (Views: 12141.2ms | ActiveRecord: 0.2ms | Allocations: 58160)
+Started GET "/assets/application-530592f6e95e2bdf1a3e83ff66a7053e9ead5e0d2d150019960299a276d9b29c.css" for 127.0.0.1 at 2021-11-29 18:08:46 +0200
+Started GET "/assets/logo1-8d316f611adf36d633b059760a6f565b0ad005b75e15dd0ac2eff0a6a8774eaa.svg" for 127.0.0.1 at 2021-11-29 18:08:46 +0200
+Started GET "/cable" for 127.0.0.1 at 2021-11-29 18:08:46 +0200
+Started GET "/cable/" [WebSocket] for 127.0.0.1 at 2021-11-29 18:08:46 +0200
+Successfully upgraded to WebSocket (REQUEST_METHOD: GET, HTTP_CONNECTION: Upgrade, HTTP_UPGRADE: websocket)
+GamesChannel is transmitting the subscription confirmation
+GamesChannel is streaming from games
+Started DELETE "/orders/298486374" for 127.0.0.1 at 2021-11-29 18:08:46 +0200
+Processing by OrdersController#destroy as HTML
+  Parameters: {"id"=>"298486374"}
+  [1m[36mOrder Load (0.1ms)[0m  [1m[34mSELECT "orders".* FROM "orders" WHERE "orders"."id" = ? LIMIT ?[0m  [["id", 298486374], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mLineItem Load (0.1ms)[0m  [1m[34mSELECT "line_items".* FROM "line_items" WHERE "line_items"."order_id" = ?[0m  [["order_id", 298486374]]
+  [1m[36mOrder Destroy (2.2ms)[0m  [1m[31mDELETE FROM "orders" WHERE "orders"."id" = ?[0m  [["id", 298486374]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Redirected to http://127.0.0.1:33231/orders
+Completed 302 Found in 14ms (ActiveRecord: 2.6ms | Allocations: 3318)
+Started GET "/orders" for 127.0.0.1 at 2021-11-29 18:08:46 +0200
+Processing by OrdersController#index as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering orders/index.html.erb within layouts/application
+  [1m[36mOrder Load (0.2ms)[0m  [1m[34mSELECT "orders".* FROM "orders"[0m
+  Rendered orders/index.html.erb within layouts/application (Duration: 5.0ms | Allocations: 249)
+[Webpacker] Everything's up-to-date. Nothing to do
+  Rendered layout layouts/application.html.erb (Duration: 11.0ms | Allocations: 2806)
+Completed 200 OK in 13ms (Views: 11.7ms | ActiveRecord: 0.2ms | Allocations: 3321)
+Finished "/cable/" [WebSocket] for 127.0.0.1 at 2021-11-29 18:08:46 +0200
+GamesChannel stopped streaming from games
+Started GET "/cable" for 127.0.0.1 at 2021-11-29 18:08:46 +0200
+Started GET "/cable/" [WebSocket] for 127.0.0.1 at 2021-11-29 18:08:46 +0200
+Successfully upgraded to WebSocket (REQUEST_METHOD: GET, HTTP_CONNECTION: Upgrade, HTTP_UPGRADE: websocket)
+GamesChannel is transmitting the subscription confirmation
+GamesChannel is streaming from games
+Finished "/cable/" [WebSocket] for 127.0.0.1 at 2021-11-29 18:08:46 +0200
+GamesChannel stopped streaming from games
+  [1m[36mTRANSACTION (6.0ms)[0m  [1m[31mrollback transaction[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+---------------------------------
+OrdersTest: test_updating_a_Order
+---------------------------------
+  [1m[36mOrder Load (0.1ms)[0m  [1m[34mSELECT "orders".* FROM "orders" WHERE "orders"."id" = ? LIMIT ?[0m  [["id", 980190962], ["LIMIT", 1]]
+Started GET "/orders" for 127.0.0.1 at 2021-11-29 18:08:46 +0200
+Processing by OrdersController#index as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering orders/index.html.erb within layouts/application
+  [1m[36mOrder Load (0.1ms)[0m  [1m[34mSELECT "orders".* FROM "orders"[0m
+  Rendered orders/index.html.erb within layouts/application (Duration: 3.3ms | Allocations: 363)
+[Webpacker] Everything's up-to-date. Nothing to do
+  Rendered layout layouts/application.html.erb (Duration: 14.2ms | Allocations: 2937)
+Completed 200 OK in 20ms (Views: 19.4ms | ActiveRecord: 0.1ms | Allocations: 3334)
+Started GET "/cable" for 127.0.0.1 at 2021-11-29 18:08:46 +0200
+Started GET "/cable/" [WebSocket] for 127.0.0.1 at 2021-11-29 18:08:46 +0200
+Successfully upgraded to WebSocket (REQUEST_METHOD: GET, HTTP_CONNECTION: Upgrade, HTTP_UPGRADE: websocket)
+GamesChannel is transmitting the subscription confirmation
+GamesChannel is streaming from games
+Started GET "/orders/298486374/edit" for 127.0.0.1 at 2021-11-29 18:08:47 +0200
+Processing by OrdersController#edit as HTML
+  Parameters: {"id"=>"298486374"}
+  [1m[36mOrder Load (0.1ms)[0m  [1m[34mSELECT "orders".* FROM "orders" WHERE "orders"."id" = ? LIMIT ?[0m  [["id", 298486374], ["LIMIT", 1]]
+  Rendering layout layouts/application.html.erb
+  Rendering orders/edit.html.erb within layouts/application
+  Rendered orders/_form.html.erb (Duration: 31.1ms | Allocations: 3949)
+  Rendered orders/edit.html.erb within layouts/application (Duration: 36.8ms | Allocations: 4311)
+[Webpacker] Everything's up-to-date. Nothing to do
+  Rendered layout layouts/application.html.erb (Duration: 55.5ms | Allocations: 7802)
+Completed 200 OK in 69ms (Views: 56.0ms | ActiveRecord: 0.1ms | Allocations: 8417)
+Finished "/cable/" [WebSocket] for 127.0.0.1 at 2021-11-29 18:08:49 +0200
+GamesChannel stopped streaming from games
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mrollback transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+-------------------------------------
+OrdersTest: test_check_routing_number
+-------------------------------------
+  [1m[36mOrder Load (0.1ms)[0m  [1m[34mSELECT "orders".* FROM "orders" WHERE "orders"."id" = ? LIMIT ?[0m  [["id", 980190962], ["LIMIT", 1]]
+  [1m[36mLineItem Destroy (3.0ms)[0m  [1m[31mDELETE FROM "line_items"[0m
+  [1m[36mOrder Destroy (0.1ms)[0m  [1m[31mDELETE FROM "orders"[0m
+Started GET "/store/index" for 127.0.0.1 at 2021-11-29 18:08:49 +0200
+Processing by StoreController#index as HTML
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mCart Create (4.4ms)[0m  [1m[32mINSERT INTO "carts" ("created_at", "updated_at") VALUES (?, ?)[0m  [["created_at", "2021-11-29 16:08:49.495773"], ["updated_at", "2021-11-29 16:08:49.495773"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  Rendering layout layouts/application.html.erb
+  Rendering store/index.html.erb within layouts/application
+  [1m[36mGame Load (0.2ms)[0m  [1m[34mSELECT "games".* FROM "games" ORDER BY "games"."title" ASC[0m
+  Rendered store/index.html.erb within layouts/application (Duration: 22.7ms | Allocations: 6734)
+  Rendered layout layouts/application.html.erb (Duration: 22.9ms | Allocations: 6775)
+Completed 500 Internal Server Error in 47ms (ActiveRecord: 4.9ms | Allocations: 9998)
+  [1m[36mTRANSACTION (1.0ms)[0m  [1m[31mrollback transaction[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+---------------------------------
+OrdersTest: test_creating_a_Order
+---------------------------------
+  [1m[36mOrder Load (0.1ms)[0m  [1m[34mSELECT "orders".* FROM "orders" WHERE "orders"."id" = ? LIMIT ?[0m  [["id", 980190962], ["LIMIT", 1]]
+Started GET "/orders" for 127.0.0.1 at 2021-11-29 18:08:50 +0200
+Processing by OrdersController#index as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering orders/index.html.erb within layouts/application
+  [1m[36mOrder Load (0.1ms)[0m  [1m[34mSELECT "orders".* FROM "orders"[0m
+  Rendered orders/index.html.erb within layouts/application (Duration: 12.1ms | Allocations: 363)
+[Webpacker] Everything's up-to-date. Nothing to do
+  Rendered layout layouts/application.html.erb (Duration: 18.0ms | Allocations: 2934)
+Completed 200 OK in 30ms (Views: 29.2ms | ActiveRecord: 0.1ms | Allocations: 3331)
+Started GET "/cable" for 127.0.0.1 at 2021-11-29 18:08:50 +0200
+Started GET "/cable/" [WebSocket] for 127.0.0.1 at 2021-11-29 18:08:50 +0200
+Successfully upgraded to WebSocket (REQUEST_METHOD: GET, HTTP_CONNECTION: Upgrade, HTTP_UPGRADE: websocket)
+GamesChannel is transmitting the subscription confirmation
+GamesChannel is streaming from games
+Started GET "/orders/new" for 127.0.0.1 at 2021-11-29 18:08:50 +0200
+Processing by OrdersController#new as HTML
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mCart Create (1.3ms)[0m  [1m[32mINSERT INTO "carts" ("created_at", "updated_at") VALUES (?, ?)[0m  [["created_at", "2021-11-29 16:08:50.322445"], ["updated_at", "2021-11-29 16:08:50.322445"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mLineItem Exists? (0.1ms)[0m  [1m[34mSELECT 1 AS one FROM "line_items" WHERE "line_items"."cart_id" = ? LIMIT ?[0m  [["cart_id", 980190963], ["LIMIT", 1]]
+Redirected to http://127.0.0.1:33231/store/index
+Filter chain halted as :ensure_cart_isnt_empty rendered or redirected
+Completed 302 Found in 40ms (ActiveRecord: 1.6ms | Allocations: 2337)
+Started GET "/store/index" for 127.0.0.1 at 2021-11-29 18:08:50 +0200
+Processing by StoreController#index as HTML
+  [1m[36mCart Load (0.2ms)[0m  [1m[34mSELECT "carts".* FROM "carts" WHERE "carts"."id" = ? LIMIT ?[0m  [["id", 980190963], ["LIMIT", 1]]
+  Rendering layout layouts/application.html.erb
+  Rendering store/index.html.erb within layouts/application
+  [1m[36mGame Load (0.1ms)[0m  [1m[34mSELECT "games".* FROM "games" ORDER BY "games"."title" ASC[0m
+  Rendered store/index.html.erb within layouts/application (Duration: 5.4ms | Allocations: 2941)
+  Rendered layout layouts/application.html.erb (Duration: 5.5ms | Allocations: 2981)
+Completed 500 Internal Server Error in 11ms (ActiveRecord: 0.3ms | Allocations: 4086)
+Finished "/cable/" [WebSocket] for 127.0.0.1 at 2021-11-29 18:08:50 +0200
+GamesChannel stopped streaming from games
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mrollback transaction[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+-----------------------------------
+OrdersTest: test_visiting_the_index
+-----------------------------------
+  [1m[36mOrder Load (0.1ms)[0m  [1m[34mSELECT "orders".* FROM "orders" WHERE "orders"."id" = ? LIMIT ?[0m  [["id", 980190962], ["LIMIT", 1]]
+Started GET "/orders" for 127.0.0.1 at 2021-11-29 18:08:50 +0200
+Processing by OrdersController#index as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering orders/index.html.erb within layouts/application
+  [1m[36mOrder Load (0.1ms)[0m  [1m[34mSELECT "orders".* FROM "orders"[0m
+  Rendered orders/index.html.erb within layouts/application (Duration: 1.0ms | Allocations: 357)
+[Webpacker] Everything's up-to-date. Nothing to do
+  Rendered layout layouts/application.html.erb (Duration: 27.7ms | Allocations: 2926)
+Completed 200 OK in 29ms (Views: 28.1ms | ActiveRecord: 0.1ms | Allocations: 3310)
+Started GET "/cable" for 127.0.0.1 at 2021-11-29 18:08:50 +0200
+Started GET "/cable/" [WebSocket] for 127.0.0.1 at 2021-11-29 18:08:50 +0200
+Successfully upgraded to WebSocket (REQUEST_METHOD: GET, HTTP_CONNECTION: Upgrade, HTTP_UPGRADE: websocket)
+GamesChannel is transmitting the subscription confirmation
+GamesChannel is streaming from games
+Finished "/cable/" [WebSocket] for 127.0.0.1 at 2021-11-29 18:08:51 +0200
+GamesChannel stopped streaming from games
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mrollback transaction[0m
+  [1m[35m (0.5ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ?[0m  [["key", "schema_sha1"]]
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.2ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA defer_foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mFixtures Load (2.5ms)[0m  [1m[31mDELETE FROM "carts";
+DELETE FROM "games";
+DELETE FROM "line_items";
+DELETE FROM "orders";
+INSERT INTO "carts" ("id", "created_at", "updated_at") VALUES (980190962, '2021-11-29 16:14:58.946424', '2021-11-29 16:14:58.946424');
+INSERT INTO "carts" ("id", "created_at", "updated_at") VALUES (298486374, '2021-11-29 16:14:58.946424', '2021-11-29 16:14:58.946424');
+INSERT INTO "games" ("id", "image", "title", "description", "genre", "price", "created_at", "updated_at") VALUES (980190962, 'MyString', 'MyString', 'MyText', 'MyString', 9.99, '2021-11-29 16:14:58.947866', '2021-11-29 16:14:58.947866');
+INSERT INTO "games" ("id", "image", "title", "description", "genre", "price", "created_at", "updated_at") VALUES (298486374, 'MyString', 'MyString', 'MyText', 'MyString', 9.99, '2021-11-29 16:14:58.947866', '2021-11-29 16:14:58.947866');
+INSERT INTO "line_items" ("id", "game_id", "cart_id", "created_at", "updated_at") VALUES (980190962, 298486374, 980190962, '2021-11-29 16:14:58.954750', '2021-11-29 16:14:58.954750');
+INSERT INTO "line_items" ("id", "game_id", "created_at", "updated_at", "order_id") VALUES (298486374, 671447580, '2021-11-29 16:14:58.954750', '2021-11-29 16:14:58.954750', 980190962);
+INSERT INTO "orders" ("id", "name", "address", "email", "pay_type", "created_at", "updated_at") VALUES (980190962, 'Dave Thomas', 'MyText', 'dave@example.org', 0, '2021-11-29 16:14:58.960164', '2021-11-29 16:14:58.960164');
+INSERT INTO "orders" ("id", "name", "address", "email", "pay_type", "created_at", "updated_at") VALUES (298486374, 'MyString', 'MyText', 'MyString', 1, '2021-11-29 16:14:58.960164', '2021-11-29 16:14:58.960164')[0m
+  [1m[36mTRANSACTION (15.2ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+---------------------------------
+OrdersTest: test_creating_a_Order
+---------------------------------
+  [1m[36mOrder Load (0.2ms)[0m  [1m[34mSELECT "orders".* FROM "orders" WHERE "orders"."id" = ? LIMIT ?[0m  [["id", 980190962], ["LIMIT", 1]]
+Started GET "/orders" for 127.0.0.1 at 2021-11-29 18:15:00 +0200
+Processing by OrdersController#index as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering orders/index.html.erb within layouts/application
+  [1m[36mOrder Load (0.2ms)[0m  [1m[34mSELECT "orders".* FROM "orders"[0m
+  Rendered orders/index.html.erb within layouts/application (Duration: 4.1ms | Allocations: 1063)
+[Webpacker] Everything's up-to-date. Nothing to do
+  Rendered layout layouts/application.html.erb (Duration: 329.4ms | Allocations: 47080)
+Completed 200 OK in 343ms (Views: 332.6ms | ActiveRecord: 0.2ms | Allocations: 50250)
+Started GET "/assets/application-530592f6e95e2bdf1a3e83ff66a7053e9ead5e0d2d150019960299a276d9b29c.css" for 127.0.0.1 at 2021-11-29 18:15:00 +0200
+Started GET "/assets/logo1-8d316f611adf36d633b059760a6f565b0ad005b75e15dd0ac2eff0a6a8774eaa.svg" for 127.0.0.1 at 2021-11-29 18:15:01 +0200
+Started GET "/cable" for 127.0.0.1 at 2021-11-29 18:15:01 +0200
+Started GET "/cable/" [WebSocket] for 127.0.0.1 at 2021-11-29 18:15:01 +0200
+Successfully upgraded to WebSocket (REQUEST_METHOD: GET, HTTP_CONNECTION: Upgrade, HTTP_UPGRADE: websocket)
+GamesChannel is transmitting the subscription confirmation
+GamesChannel is streaming from games
+Started GET "/orders/new" for 127.0.0.1 at 2021-11-29 18:15:01 +0200
+Processing by OrdersController#new as HTML
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mCart Create (7.2ms)[0m  [1m[32mINSERT INTO "carts" ("created_at", "updated_at") VALUES (?, ?)[0m  [["created_at", "2021-11-29 16:15:01.346589"], ["updated_at", "2021-11-29 16:15:01.346589"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mLineItem Exists? (0.1ms)[0m  [1m[34mSELECT 1 AS one FROM "line_items" WHERE "line_items"."cart_id" = ? LIMIT ?[0m  [["cart_id", 980190963], ["LIMIT", 1]]
+Redirected to http://127.0.0.1:37073/store/index
+Filter chain halted as :ensure_cart_isnt_empty rendered or redirected
+Completed 302 Found in 70ms (ActiveRecord: 7.6ms | Allocations: 6853)
+Started GET "/store/index" for 127.0.0.1 at 2021-11-29 18:15:01 +0200
+Processing by StoreController#index as HTML
+  [1m[36mCart Load (0.1ms)[0m  [1m[34mSELECT "carts".* FROM "carts" WHERE "carts"."id" = ? LIMIT ?[0m  [["id", 980190963], ["LIMIT", 1]]
+  Rendering layout layouts/application.html.erb
+  Rendering store/index.html.erb within layouts/application
+  [1m[36mGame Load (0.2ms)[0m  [1m[34mSELECT "games".* FROM "games" ORDER BY "games"."title" ASC[0m
+  Rendered store/index.html.erb within layouts/application (Duration: 33.0ms | Allocations: 7131)
+  Rendered layout layouts/application.html.erb (Duration: 33.2ms | Allocations: 7172)
+Completed 500 Internal Server Error in 49ms (ActiveRecord: 0.3ms | Allocations: 10319)
+Finished "/cable/" [WebSocket] for 127.0.0.1 at 2021-11-29 18:15:01 +0200
+GamesChannel stopped streaming from games
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mrollback transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+-------------------------------------
+OrdersTest: test_check_routing_number
+-------------------------------------
+  [1m[36mOrder Load (0.1ms)[0m  [1m[34mSELECT "orders".* FROM "orders" WHERE "orders"."id" = ? LIMIT ?[0m  [["id", 980190962], ["LIMIT", 1]]
+  [1m[36mLineItem Destroy (2.8ms)[0m  [1m[31mDELETE FROM "line_items"[0m
+  [1m[36mOrder Destroy (0.1ms)[0m  [1m[31mDELETE FROM "orders"[0m
+Started GET "/store/index" for 127.0.0.1 at 2021-11-29 18:15:01 +0200
+Processing by StoreController#index as HTML
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mCart Create (11.3ms)[0m  [1m[32mINSERT INTO "carts" ("created_at", "updated_at") VALUES (?, ?)[0m  [["created_at", "2021-11-29 16:15:01.993166"], ["updated_at", "2021-11-29 16:15:01.993166"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  Rendering layout layouts/application.html.erb
+  Rendering store/index.html.erb within layouts/application
+  [1m[36mGame Load (0.1ms)[0m  [1m[34mSELECT "games".* FROM "games" ORDER BY "games"."title" ASC[0m
+  Rendered store/index.html.erb within layouts/application (Duration: 5.5ms | Allocations: 2922)
+  Rendered layout layouts/application.html.erb (Duration: 5.7ms | Allocations: 2963)
+Completed 500 Internal Server Error in 28ms (ActiveRecord: 11.6ms | Allocations: 3908)
+  [1m[36mTRANSACTION (0.9ms)[0m  [1m[31mrollback transaction[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+---------------------------------
+OrdersTest: test_updating_a_Order
+---------------------------------
+  [1m[36mOrder Load (0.1ms)[0m  [1m[34mSELECT "orders".* FROM "orders" WHERE "orders"."id" = ? LIMIT ?[0m  [["id", 980190962], ["LIMIT", 1]]
+Started GET "/orders" for 127.0.0.1 at 2021-11-29 18:15:02 +0200
+Processing by OrdersController#index as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering orders/index.html.erb within layouts/application
+  [1m[36mOrder Load (0.5ms)[0m  [1m[34mSELECT "orders".* FROM "orders"[0m
+  Rendered orders/index.html.erb within layouts/application (Duration: 1.9ms | Allocations: 357)
+[Webpacker] Everything's up-to-date. Nothing to do
+  Rendered layout layouts/application.html.erb (Duration: 21.6ms | Allocations: 2928)
+Completed 200 OK in 27ms (Views: 25.7ms | ActiveRecord: 0.5ms | Allocations: 3313)
+Started GET "/cable" for 127.0.0.1 at 2021-11-29 18:15:02 +0200
+Started GET "/cable/" [WebSocket] for 127.0.0.1 at 2021-11-29 18:15:02 +0200
+Successfully upgraded to WebSocket (REQUEST_METHOD: GET, HTTP_CONNECTION: Upgrade, HTTP_UPGRADE: websocket)
+GamesChannel is transmitting the subscription confirmation
+GamesChannel is streaming from games
+Started GET "/orders/298486374/edit" for 127.0.0.1 at 2021-11-29 18:15:02 +0200
+Processing by OrdersController#edit as HTML
+  Parameters: {"id"=>"298486374"}
+  [1m[36mOrder Load (0.3ms)[0m  [1m[34mSELECT "orders".* FROM "orders" WHERE "orders"."id" = ? LIMIT ?[0m  [["id", 298486374], ["LIMIT", 1]]
+  Rendering layout layouts/application.html.erb
+  Rendering orders/edit.html.erb within layouts/application
+  Rendered orders/_form.html.erb (Duration: 22.3ms | Allocations: 3765)
+  Rendered orders/edit.html.erb within layouts/application (Duration: 39.8ms | Allocations: 5233)
+[Webpacker] Everything's up-to-date. Nothing to do
+  Rendered layout layouts/application.html.erb (Duration: 49.4ms | Allocations: 8172)
+Completed 200 OK in 64ms (Views: 49.9ms | ActiveRecord: 0.3ms | Allocations: 8888)
+Finished "/cable/" [WebSocket] for 127.0.0.1 at 2021-11-29 18:15:04 +0200
+GamesChannel stopped streaming from games
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mrollback transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+-----------------------------------
+OrdersTest: test_destroying_a_Order
+-----------------------------------
+  [1m[36mOrder Load (0.1ms)[0m  [1m[34mSELECT "orders".* FROM "orders" WHERE "orders"."id" = ? LIMIT ?[0m  [["id", 980190962], ["LIMIT", 1]]
+Started GET "/orders" for 127.0.0.1 at 2021-11-29 18:15:05 +0200
+Processing by OrdersController#index as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering orders/index.html.erb within layouts/application
+  [1m[36mOrder Load (0.1ms)[0m  [1m[34mSELECT "orders".* FROM "orders"[0m
+  Rendered orders/index.html.erb within layouts/application (Duration: 17.8ms | Allocations: 357)
+[Webpacker] Everything's up-to-date. Nothing to do
+  Rendered layout layouts/application.html.erb (Duration: 54.2ms | Allocations: 2931)
+Completed 200 OK in 81ms (Views: 54.8ms | ActiveRecord: 0.1ms | Allocations: 3316)
+Started GET "/cable" for 127.0.0.1 at 2021-11-29 18:15:05 +0200
+Started GET "/cable/" [WebSocket] for 127.0.0.1 at 2021-11-29 18:15:05 +0200
+Successfully upgraded to WebSocket (REQUEST_METHOD: GET, HTTP_CONNECTION: Upgrade, HTTP_UPGRADE: websocket)
+GamesChannel is transmitting the subscription confirmation
+GamesChannel is streaming from games
+Started DELETE "/orders/298486374" for 127.0.0.1 at 2021-11-29 18:15:05 +0200
+Processing by OrdersController#destroy as HTML
+  Parameters: {"id"=>"298486374"}
+  [1m[36mOrder Load (0.1ms)[0m  [1m[34mSELECT "orders".* FROM "orders" WHERE "orders"."id" = ? LIMIT ?[0m  [["id", 298486374], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mLineItem Load (0.1ms)[0m  [1m[34mSELECT "line_items".* FROM "line_items" WHERE "line_items"."order_id" = ?[0m  [["order_id", 298486374]]
+  [1m[36mOrder Destroy (6.0ms)[0m  [1m[31mDELETE FROM "orders" WHERE "orders"."id" = ?[0m  [["id", 298486374]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Redirected to http://127.0.0.1:37073/orders
+Completed 302 Found in 10ms (ActiveRecord: 6.3ms | Allocations: 1176)
+Started GET "/orders" for 127.0.0.1 at 2021-11-29 18:15:05 +0200
+Processing by OrdersController#index as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering orders/index.html.erb within layouts/application
+  [1m[36mOrder Load (0.1ms)[0m  [1m[34mSELECT "orders".* FROM "orders"[0m
+  Rendered orders/index.html.erb within layouts/application (Duration: 0.7ms | Allocations: 248)
+[Webpacker] Everything's up-to-date. Nothing to do
+  Rendered layout layouts/application.html.erb (Duration: 11.1ms | Allocations: 2807)
+Completed 200 OK in 12ms (Views: 11.6ms | ActiveRecord: 0.1ms | Allocations: 3297)
+Finished "/cable/" [WebSocket] for 127.0.0.1 at 2021-11-29 18:15:05 +0200
+GamesChannel stopped streaming from games
+Started GET "/cable" for 127.0.0.1 at 2021-11-29 18:15:05 +0200
+Started GET "/cable/" [WebSocket] for 127.0.0.1 at 2021-11-29 18:15:05 +0200
+Successfully upgraded to WebSocket (REQUEST_METHOD: GET, HTTP_CONNECTION: Upgrade, HTTP_UPGRADE: websocket)
+GamesChannel is transmitting the subscription confirmation
+GamesChannel is streaming from games
+Finished "/cable/" [WebSocket] for 127.0.0.1 at 2021-11-29 18:15:05 +0200
+GamesChannel stopped streaming from games
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[31mrollback transaction[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+-----------------------------------
+OrdersTest: test_visiting_the_index
+-----------------------------------
+  [1m[36mOrder Load (0.1ms)[0m  [1m[34mSELECT "orders".* FROM "orders" WHERE "orders"."id" = ? LIMIT ?[0m  [["id", 980190962], ["LIMIT", 1]]
+Started GET "/orders" for 127.0.0.1 at 2021-11-29 18:15:05 +0200
+Processing by OrdersController#index as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering orders/index.html.erb within layouts/application
+  [1m[36mOrder Load (0.1ms)[0m  [1m[34mSELECT "orders".* FROM "orders"[0m
+  Rendered orders/index.html.erb within layouts/application (Duration: 1.1ms | Allocations: 357)
+[Webpacker] Everything's up-to-date. Nothing to do
+  Rendered layout layouts/application.html.erb (Duration: 32.4ms | Allocations: 2916)
+Completed 200 OK in 33ms (Views: 32.8ms | ActiveRecord: 0.1ms | Allocations: 3300)
+Started GET "/cable" for 127.0.0.1 at 2021-11-29 18:15:06 +0200
+Started GET "/cable/" [WebSocket] for 127.0.0.1 at 2021-11-29 18:15:06 +0200
+Successfully upgraded to WebSocket (REQUEST_METHOD: GET, HTTP_CONNECTION: Upgrade, HTTP_UPGRADE: websocket)
+GamesChannel is transmitting the subscription confirmation
+GamesChannel is streaming from games
+Finished "/cable/" [WebSocket] for 127.0.0.1 at 2021-11-29 18:15:06 +0200
+GamesChannel stopped streaming from games
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mrollback transaction[0m
+  [1m[35m (1.1ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ?[0m  [["key", "schema_sha1"]]
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (1.0ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA defer_foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mFixtures Load (3.0ms)[0m  [1m[31mDELETE FROM "carts";
+DELETE FROM "games";
+DELETE FROM "line_items";
+DELETE FROM "orders";
+INSERT INTO "carts" ("id", "created_at", "updated_at") VALUES (980190962, '2021-11-29 16:15:38.463518', '2021-11-29 16:15:38.463518');
+INSERT INTO "carts" ("id", "created_at", "updated_at") VALUES (298486374, '2021-11-29 16:15:38.463518', '2021-11-29 16:15:38.463518');
+INSERT INTO "games" ("id", "image", "title", "description", "genre", "price", "created_at", "updated_at") VALUES (980190962, 'MyString', 'MyString', 'MyText', 'MyString', 9.99, '2021-11-29 16:15:38.465091', '2021-11-29 16:15:38.465091');
+INSERT INTO "games" ("id", "image", "title", "description", "genre", "price", "created_at", "updated_at") VALUES (298486374, 'MyString', 'MyString', 'MyText', 'MyString', 9.99, '2021-11-29 16:15:38.465091', '2021-11-29 16:15:38.465091');
+INSERT INTO "line_items" ("id", "game_id", "cart_id", "created_at", "updated_at") VALUES (980190962, 298486374, 980190962, '2021-11-29 16:15:38.473435', '2021-11-29 16:15:38.473435');
+INSERT INTO "line_items" ("id", "game_id", "created_at", "updated_at", "order_id") VALUES (298486374, 671447580, '2021-11-29 16:15:38.473435', '2021-11-29 16:15:38.473435', 980190962);
+INSERT INTO "orders" ("id", "name", "address", "email", "pay_type", "created_at", "updated_at") VALUES (980190962, 'Dave Thomas', 'MyText', 'dave@example.org', 0, '2021-11-29 16:15:38.474965', '2021-11-29 16:15:38.474965');
+INSERT INTO "orders" ("id", "name", "address", "email", "pay_type", "created_at", "updated_at") VALUES (298486374, 'MyString', 'MyText', 'MyString', 1, '2021-11-29 16:15:38.474965', '2021-11-29 16:15:38.474965')[0m
+  [1m[36mTRANSACTION (16.9ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+---------------------------------
+OrdersTest: test_creating_a_Order
+---------------------------------
+  [1m[36mOrder Load (0.2ms)[0m  [1m[34mSELECT "orders".* FROM "orders" WHERE "orders"."id" = ? LIMIT ?[0m  [["id", 980190962], ["LIMIT", 1]]
+Started GET "/orders" for 127.0.0.1 at 2021-11-29 18:15:40 +0200
+Processing by OrdersController#index as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering orders/index.html.erb within layouts/application
+  [1m[36mOrder Load (0.6ms)[0m  [1m[34mSELECT "orders".* FROM "orders"[0m
+  Rendered orders/index.html.erb within layouts/application (Duration: 3.6ms | Allocations: 1063)
+[Webpacker] Everything's up-to-date. Nothing to do
+  Rendered layout layouts/application.html.erb (Duration: 339.6ms | Allocations: 47400)
+Completed 200 OK in 357ms (Views: 342.8ms | ActiveRecord: 0.6ms | Allocations: 50569)
+Started GET "/assets/application-530592f6e95e2bdf1a3e83ff66a7053e9ead5e0d2d150019960299a276d9b29c.css" for 127.0.0.1 at 2021-11-29 18:15:40 +0200
+Started GET "/assets/logo1-8d316f611adf36d633b059760a6f565b0ad005b75e15dd0ac2eff0a6a8774eaa.svg" for 127.0.0.1 at 2021-11-29 18:15:40 +0200
+Started GET "/cable" for 127.0.0.1 at 2021-11-29 18:15:40 +0200
+Started GET "/cable/" [WebSocket] for 127.0.0.1 at 2021-11-29 18:15:40 +0200
+Successfully upgraded to WebSocket (REQUEST_METHOD: GET, HTTP_CONNECTION: Upgrade, HTTP_UPGRADE: websocket)
+GamesChannel is transmitting the subscription confirmation
+GamesChannel is streaming from games
+Started GET "/orders/new" for 127.0.0.1 at 2021-11-29 18:15:40 +0200
+Processing by OrdersController#new as HTML
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mCart Create (5.4ms)[0m  [1m[32mINSERT INTO "carts" ("created_at", "updated_at") VALUES (?, ?)[0m  [["created_at", "2021-11-29 16:15:40.879212"], ["updated_at", "2021-11-29 16:15:40.879212"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mLineItem Exists? (0.1ms)[0m  [1m[34mSELECT 1 AS one FROM "line_items" WHERE "line_items"."cart_id" = ? LIMIT ?[0m  [["cart_id", 980190963], ["LIMIT", 1]]
+Redirected to http://127.0.0.1:34969/store/index
+Filter chain halted as :ensure_cart_isnt_empty rendered or redirected
+Completed 302 Found in 63ms (ActiveRecord: 5.6ms | Allocations: 6856)
+Started GET "/store/index" for 127.0.0.1 at 2021-11-29 18:15:40 +0200
+Processing by StoreController#index as HTML
+  [1m[36mCart Load (0.3ms)[0m  [1m[34mSELECT "carts".* FROM "carts" WHERE "carts"."id" = ? LIMIT ?[0m  [["id", 980190963], ["LIMIT", 1]]
+  Rendering layout layouts/application.html.erb
+  Rendering store/index.html.erb within layouts/application
+  [1m[36mGame Load (0.2ms)[0m  [1m[34mSELECT "games".* FROM "games" ORDER BY "games"."title" ASC[0m
+  Rendered store/index.html.erb within layouts/application (Duration: 28.5ms | Allocations: 8773)
+  Rendered layout layouts/application.html.erb (Duration: 28.7ms | Allocations: 8814)
+Completed 500 Internal Server Error in 33ms (ActiveRecord: 0.6ms | Allocations: 10314)
+Finished "/cable/" [WebSocket] for 127.0.0.1 at 2021-11-29 18:15:41 +0200
+GamesChannel stopped streaming from games
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mrollback transaction[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+-----------------------------------
+OrdersTest: test_destroying_a_Order
+-----------------------------------
+  [1m[36mOrder Load (0.2ms)[0m  [1m[34mSELECT "orders".* FROM "orders" WHERE "orders"."id" = ? LIMIT ?[0m  [["id", 980190962], ["LIMIT", 1]]
+Started GET "/orders" for 127.0.0.1 at 2021-11-29 18:15:41 +0200
+Processing by OrdersController#index as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering orders/index.html.erb within layouts/application
+  [1m[36mOrder Load (3.3ms)[0m  [1m[34mSELECT "orders".* FROM "orders"[0m
+  Rendered orders/index.html.erb within layouts/application (Duration: 4.8ms | Allocations: 363)
+[Webpacker] Everything's up-to-date. Nothing to do
+  Rendered layout layouts/application.html.erb (Duration: 18.5ms | Allocations: 2924)
+Completed 200 OK in 20ms (Views: 15.8ms | ActiveRecord: 3.3ms | Allocations: 3321)
+Started GET "/cable" for 127.0.0.1 at 2021-11-29 18:15:41 +0200
+Started GET "/cable/" [WebSocket] for 127.0.0.1 at 2021-11-29 18:15:41 +0200
+Successfully upgraded to WebSocket (REQUEST_METHOD: GET, HTTP_CONNECTION: Upgrade, HTTP_UPGRADE: websocket)
+GamesChannel is transmitting the subscription confirmation
+GamesChannel is streaming from games
+Started DELETE "/orders/298486374" for 127.0.0.1 at 2021-11-29 18:15:41 +0200
+Processing by OrdersController#destroy as HTML
+  Parameters: {"id"=>"298486374"}
+  [1m[36mOrder Load (0.1ms)[0m  [1m[34mSELECT "orders".* FROM "orders" WHERE "orders"."id" = ? LIMIT ?[0m  [["id", 298486374], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mLineItem Load (0.1ms)[0m  [1m[34mSELECT "line_items".* FROM "line_items" WHERE "line_items"."order_id" = ?[0m  [["order_id", 298486374]]
+  [1m[36mOrder Destroy (2.3ms)[0m  [1m[31mDELETE FROM "orders" WHERE "orders"."id" = ?[0m  [["id", 298486374]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Redirected to http://127.0.0.1:34969/orders
+Completed 302 Found in 8ms (ActiveRecord: 2.7ms | Allocations: 1311)
+Started GET "/orders" for 127.0.0.1 at 2021-11-29 18:15:41 +0200
+Processing by OrdersController#index as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering orders/index.html.erb within layouts/application
+  [1m[36mOrder Load (0.1ms)[0m  [1m[34mSELECT "orders".* FROM "orders"[0m
+  Rendered orders/index.html.erb within layouts/application (Duration: 0.9ms | Allocations: 248)
+[Webpacker] Everything's up-to-date. Nothing to do
+  Rendered layout layouts/application.html.erb (Duration: 7.9ms | Allocations: 2812)
+Completed 200 OK in 10ms (Views: 8.3ms | ActiveRecord: 0.1ms | Allocations: 3301)
+Finished "/cable/" [WebSocket] for 127.0.0.1 at 2021-11-29 18:15:41 +0200
+GamesChannel stopped streaming from games
+Started GET "/cable" for 127.0.0.1 at 2021-11-29 18:15:41 +0200
+Started GET "/cable/" [WebSocket] for 127.0.0.1 at 2021-11-29 18:15:41 +0200
+Successfully upgraded to WebSocket (REQUEST_METHOD: GET, HTTP_CONNECTION: Upgrade, HTTP_UPGRADE: websocket)
+GamesChannel is transmitting the subscription confirmation
+GamesChannel is streaming from games
+Finished "/cable/" [WebSocket] for 127.0.0.1 at 2021-11-29 18:15:41 +0200
+GamesChannel stopped streaming from games
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mrollback transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+-------------------------------------
+OrdersTest: test_check_routing_number
+-------------------------------------
+  [1m[36mOrder Load (0.1ms)[0m  [1m[34mSELECT "orders".* FROM "orders" WHERE "orders"."id" = ? LIMIT ?[0m  [["id", 980190962], ["LIMIT", 1]]
+  [1m[36mLineItem Destroy (2.3ms)[0m  [1m[31mDELETE FROM "line_items"[0m
+  [1m[36mOrder Destroy (0.1ms)[0m  [1m[31mDELETE FROM "orders"[0m
+Started GET "/store/index" for 127.0.0.1 at 2021-11-29 18:15:42 +0200
+Processing by StoreController#index as HTML
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mCart Create (3.7ms)[0m  [1m[32mINSERT INTO "carts" ("created_at", "updated_at") VALUES (?, ?)[0m  [["created_at", "2021-11-29 16:15:42.112810"], ["updated_at", "2021-11-29 16:15:42.112810"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  Rendering layout layouts/application.html.erb
+  Rendering store/index.html.erb within layouts/application
+  [1m[36mGame Load (0.1ms)[0m  [1m[34mSELECT "games".* FROM "games" ORDER BY "games"."title" ASC[0m
+  Rendered store/index.html.erb within layouts/application (Duration: 7.2ms | Allocations: 2921)
+  Rendered layout layouts/application.html.erb (Duration: 7.5ms | Allocations: 2961)
+Completed 500 Internal Server Error in 17ms (ActiveRecord: 3.9ms | Allocations: 3889)
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[31mrollback transaction[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+---------------------------------
+OrdersTest: test_updating_a_Order
+---------------------------------
+  [1m[36mOrder Load (0.1ms)[0m  [1m[34mSELECT "orders".* FROM "orders" WHERE "orders"."id" = ? LIMIT ?[0m  [["id", 980190962], ["LIMIT", 1]]
+Started GET "/orders" for 127.0.0.1 at 2021-11-29 18:15:42 +0200
+Processing by OrdersController#index as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering orders/index.html.erb within layouts/application
+  [1m[36mOrder Load (0.1ms)[0m  [1m[34mSELECT "orders".* FROM "orders"[0m
+  Rendered orders/index.html.erb within layouts/application (Duration: 10.1ms | Allocations: 363)
+[Webpacker] Everything's up-to-date. Nothing to do
+  Rendered layout layouts/application.html.erb (Duration: 19.7ms | Allocations: 2931)
+Completed 200 OK in 21ms (Views: 20.0ms | ActiveRecord: 0.1ms | Allocations: 3327)
+Started GET "/cable" for 127.0.0.1 at 2021-11-29 18:15:42 +0200
+Started GET "/cable/" [WebSocket] for 127.0.0.1 at 2021-11-29 18:15:42 +0200
+Successfully upgraded to WebSocket (REQUEST_METHOD: GET, HTTP_CONNECTION: Upgrade, HTTP_UPGRADE: websocket)
+GamesChannel is transmitting the subscription confirmation
+GamesChannel is streaming from games
+Started GET "/orders/298486374/edit" for 127.0.0.1 at 2021-11-29 18:15:42 +0200
+Processing by OrdersController#edit as HTML
+  Parameters: {"id"=>"298486374"}
+  [1m[36mOrder Load (0.1ms)[0m  [1m[34mSELECT "orders".* FROM "orders" WHERE "orders"."id" = ? LIMIT ?[0m  [["id", 298486374], ["LIMIT", 1]]
+  Rendering layout layouts/application.html.erb
+  Rendering orders/edit.html.erb within layouts/application
+  Rendered orders/_form.html.erb (Duration: 22.8ms | Allocations: 3761)
+  Rendered orders/edit.html.erb within layouts/application (Duration: 48.4ms | Allocations: 5601)
+[Webpacker] Everything's up-to-date. Nothing to do
+  Rendered layout layouts/application.html.erb (Duration: 55.2ms | Allocations: 8152)
+Completed 200 OK in 58ms (Views: 56.3ms | ActiveRecord: 0.1ms | Allocations: 8767)
+Finished "/cable/" [WebSocket] for 127.0.0.1 at 2021-11-29 18:15:45 +0200
+GamesChannel stopped streaming from games
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mrollback transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+-----------------------------------
+OrdersTest: test_visiting_the_index
+-----------------------------------
+  [1m[36mOrder Load (0.1ms)[0m  [1m[34mSELECT "orders".* FROM "orders" WHERE "orders"."id" = ? LIMIT ?[0m  [["id", 980190962], ["LIMIT", 1]]
+Started GET "/orders" for 127.0.0.1 at 2021-11-29 18:15:45 +0200
+Processing by OrdersController#index as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering orders/index.html.erb within layouts/application
+  [1m[36mOrder Load (0.1ms)[0m  [1m[34mSELECT "orders".* FROM "orders"[0m
+  Rendered orders/index.html.erb within layouts/application (Duration: 1.5ms | Allocations: 357)
+[Webpacker] Everything's up-to-date. Nothing to do
+  Rendered layout layouts/application.html.erb (Duration: 22.1ms | Allocations: 2930)
+Completed 200 OK in 23ms (Views: 22.5ms | ActiveRecord: 0.1ms | Allocations: 3315)
+Started GET "/cable" for 127.0.0.1 at 2021-11-29 18:15:45 +0200
+Started GET "/cable/" [WebSocket] for 127.0.0.1 at 2021-11-29 18:15:45 +0200
+Successfully upgraded to WebSocket (REQUEST_METHOD: GET, HTTP_CONNECTION: Upgrade, HTTP_UPGRADE: websocket)
+GamesChannel is transmitting the subscription confirmation
+GamesChannel is streaming from games
+Finished "/cable/" [WebSocket] for 127.0.0.1 at 2021-11-29 18:15:45 +0200
+GamesChannel stopped streaming from games
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mrollback transaction[0m
+  [1m[35m (0.5ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.3ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ?[0m  [["key", "schema_sha1"]]
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35m (0.2ms)[0m  [1m[35mPRAGMA defer_foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mFixtures Load (3.5ms)[0m  [1m[31mDELETE FROM "carts";
+DELETE FROM "games";
+DELETE FROM "line_items";
+DELETE FROM "orders";
+INSERT INTO "carts" ("id", "created_at", "updated_at") VALUES (980190962, '2021-11-29 16:16:31.988108', '2021-11-29 16:16:31.988108');
+INSERT INTO "carts" ("id", "created_at", "updated_at") VALUES (298486374, '2021-11-29 16:16:31.988108', '2021-11-29 16:16:31.988108');
+INSERT INTO "games" ("id", "image", "title", "description", "genre", "price", "created_at", "updated_at") VALUES (980190962, 'MyString', 'MyString', 'MyText', 'MyString', 9.99, '2021-11-29 16:16:31.989604', '2021-11-29 16:16:31.989604');
+INSERT INTO "games" ("id", "image", "title", "description", "genre", "price", "created_at", "updated_at") VALUES (298486374, 'MyString', 'MyString', 'MyText', 'MyString', 9.99, '2021-11-29 16:16:31.989604', '2021-11-29 16:16:31.989604');
+INSERT INTO "line_items" ("id", "game_id", "cart_id", "created_at", "updated_at") VALUES (980190962, 298486374, 980190962, '2021-11-29 16:16:31.998879', '2021-11-29 16:16:31.998879');
+INSERT INTO "line_items" ("id", "game_id", "created_at", "updated_at", "order_id") VALUES (298486374, 671447580, '2021-11-29 16:16:31.998879', '2021-11-29 16:16:31.998879', 980190962);
+INSERT INTO "orders" ("id", "name", "address", "email", "pay_type", "created_at", "updated_at") VALUES (980190962, 'Dave Thomas', 'MyText', 'dave@example.org', 0, '2021-11-29 16:16:32.000477', '2021-11-29 16:16:32.000477');
+INSERT INTO "orders" ("id", "name", "address", "email", "pay_type", "created_at", "updated_at") VALUES (298486374, 'MyString', 'MyText', 'MyString', 1, '2021-11-29 16:16:32.000477', '2021-11-29 16:16:32.000477')[0m
+  [1m[36mTRANSACTION (16.3ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+-------------------------------------
+OrdersTest: test_check_routing_number
+-------------------------------------
+  [1m[36mOrder Load (0.2ms)[0m  [1m[34mSELECT "orders".* FROM "orders" WHERE "orders"."id" = ? LIMIT ?[0m  [["id", 980190962], ["LIMIT", 1]]
+  [1m[36mLineItem Destroy (2.8ms)[0m  [1m[31mDELETE FROM "line_items"[0m
+  [1m[36mOrder Destroy (0.2ms)[0m  [1m[31mDELETE FROM "orders"[0m
+Started GET "/store/index" for 127.0.0.1 at 2021-11-29 18:16:33 +0200
+Processing by StoreController#index as HTML
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mCart Create (2.4ms)[0m  [1m[32mINSERT INTO "carts" ("created_at", "updated_at") VALUES (?, ?)[0m  [["created_at", "2021-11-29 16:16:33.670186"], ["updated_at", "2021-11-29 16:16:33.670186"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  Rendering layout layouts/application.html.erb
+  Rendering store/index.html.erb within layouts/application
+  [1m[36mGame Load (0.6ms)[0m  [1m[34mSELECT "games".* FROM "games" ORDER BY "games"."title" ASC[0m
+  Rendered store/index.html.erb within layouts/application (Duration: 19.1ms | Allocations: 7010)
+  Rendered layout layouts/application.html.erb (Duration: 19.3ms | Allocations: 7062)
+Completed 500 Internal Server Error in 49ms (ActiveRecord: 3.2ms | Allocations: 12407)
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[31mrollback transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+-----------------------------------
+OrdersTest: test_visiting_the_index
+-----------------------------------
+  [1m[36mOrder Load (0.1ms)[0m  [1m[34mSELECT "orders".* FROM "orders" WHERE "orders"."id" = ? LIMIT ?[0m  [["id", 980190962], ["LIMIT", 1]]
+Started GET "/orders" for 127.0.0.1 at 2021-11-29 18:16:34 +0200
+Processing by OrdersController#index as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering orders/index.html.erb within layouts/application
+  [1m[36mOrder Load (0.2ms)[0m  [1m[34mSELECT "orders".* FROM "orders"[0m
+  Rendered orders/index.html.erb within layouts/application (Duration: 11.4ms | Allocations: 860)
+[Webpacker] Everything's up-to-date. Nothing to do
+  Rendered layout layouts/application.html.erb (Duration: 358.1ms | Allocations: 47187)
+Completed 200 OK in 367ms (Views: 360.2ms | ActiveRecord: 0.2ms | Allocations: 48272)
+Started GET "/assets/application-530592f6e95e2bdf1a3e83ff66a7053e9ead5e0d2d150019960299a276d9b29c.css" for 127.0.0.1 at 2021-11-29 18:16:34 +0200
+Started GET "/assets/logo1-8d316f611adf36d633b059760a6f565b0ad005b75e15dd0ac2eff0a6a8774eaa.svg" for 127.0.0.1 at 2021-11-29 18:16:34 +0200
+Started GET "/cable" for 127.0.0.1 at 2021-11-29 18:16:34 +0200
+Started GET "/cable/" [WebSocket] for 127.0.0.1 at 2021-11-29 18:16:34 +0200
+Successfully upgraded to WebSocket (REQUEST_METHOD: GET, HTTP_CONNECTION: Upgrade, HTTP_UPGRADE: websocket)
+GamesChannel is transmitting the subscription confirmation
+GamesChannel is streaming from games
+Finished "/cable/" [WebSocket] for 127.0.0.1 at 2021-11-29 18:16:34 +0200
+GamesChannel stopped streaming from games
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mrollback transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+-----------------------------------
+OrdersTest: test_destroying_a_Order
+-----------------------------------
+  [1m[36mOrder Load (0.1ms)[0m  [1m[34mSELECT "orders".* FROM "orders" WHERE "orders"."id" = ? LIMIT ?[0m  [["id", 980190962], ["LIMIT", 1]]
+Started GET "/orders" for 127.0.0.1 at 2021-11-29 18:16:35 +0200
+Processing by OrdersController#index as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering orders/index.html.erb within layouts/application
+  [1m[36mOrder Load (0.1ms)[0m  [1m[34mSELECT "orders".* FROM "orders"[0m
+  Rendered orders/index.html.erb within layouts/application (Duration: 4.4ms | Allocations: 363)
+[Webpacker] Everything's up-to-date. Nothing to do
+  Rendered layout layouts/application.html.erb (Duration: 11.4ms | Allocations: 2924)
+Completed 200 OK in 12ms (Views: 11.8ms | ActiveRecord: 0.1ms | Allocations: 3320)
+Started GET "/cable" for 127.0.0.1 at 2021-11-29 18:16:35 +0200
+Started GET "/cable/" [WebSocket] for 127.0.0.1 at 2021-11-29 18:16:35 +0200
+Successfully upgraded to WebSocket (REQUEST_METHOD: GET, HTTP_CONNECTION: Upgrade, HTTP_UPGRADE: websocket)
+GamesChannel is transmitting the subscription confirmation
+GamesChannel is streaming from games
+Started DELETE "/orders/298486374" for 127.0.0.1 at 2021-11-29 18:16:35 +0200
+Processing by OrdersController#destroy as HTML
+  Parameters: {"id"=>"298486374"}
+  [1m[36mOrder Load (0.1ms)[0m  [1m[34mSELECT "orders".* FROM "orders" WHERE "orders"."id" = ? LIMIT ?[0m  [["id", 298486374], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mLineItem Load (0.1ms)[0m  [1m[34mSELECT "line_items".* FROM "line_items" WHERE "line_items"."order_id" = ?[0m  [["order_id", 298486374]]
+  [1m[36mOrder Destroy (5.1ms)[0m  [1m[31mDELETE FROM "orders" WHERE "orders"."id" = ?[0m  [["id", 298486374]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Redirected to http://127.0.0.1:41443/orders
+Completed 302 Found in 15ms (ActiveRecord: 5.5ms | Allocations: 3170)
+Started GET "/orders" for 127.0.0.1 at 2021-11-29 18:16:35 +0200
+Processing by OrdersController#index as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering orders/index.html.erb within layouts/application
+  [1m[36mOrder Load (0.1ms)[0m  [1m[34mSELECT "orders".* FROM "orders"[0m
+  Rendered orders/index.html.erb within layouts/application (Duration: 1.1ms | Allocations: 249)
+[Webpacker] Everything's up-to-date. Nothing to do
+  Rendered layout layouts/application.html.erb (Duration: 7.3ms | Allocations: 2808)
+Completed 200 OK in 11ms (Views: 7.7ms | ActiveRecord: 0.1ms | Allocations: 3319)
+Finished "/cable/" [WebSocket] for 127.0.0.1 at 2021-11-29 18:16:35 +0200
+GamesChannel stopped streaming from games
+Started GET "/cable" for 127.0.0.1 at 2021-11-29 18:16:35 +0200
+Started GET "/cable/" [WebSocket] for 127.0.0.1 at 2021-11-29 18:16:35 +0200
+Successfully upgraded to WebSocket (REQUEST_METHOD: GET, HTTP_CONNECTION: Upgrade, HTTP_UPGRADE: websocket)
+GamesChannel is transmitting the subscription confirmation
+GamesChannel is streaming from games
+Finished "/cable/" [WebSocket] for 127.0.0.1 at 2021-11-29 18:16:35 +0200
+GamesChannel stopped streaming from games
+  [1m[36mTRANSACTION (0.8ms)[0m  [1m[31mrollback transaction[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+---------------------------------
+OrdersTest: test_creating_a_Order
+---------------------------------
+  [1m[36mOrder Load (0.1ms)[0m  [1m[34mSELECT "orders".* FROM "orders" WHERE "orders"."id" = ? LIMIT ?[0m  [["id", 980190962], ["LIMIT", 1]]
+Started GET "/orders" for 127.0.0.1 at 2021-11-29 18:16:35 +0200
+Processing by OrdersController#index as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering orders/index.html.erb within layouts/application
+  [1m[36mOrder Load (0.1ms)[0m  [1m[34mSELECT "orders".* FROM "orders"[0m
+  Rendered orders/index.html.erb within layouts/application (Duration: 1.1ms | Allocations: 357)
+[Webpacker] Everything's up-to-date. Nothing to do
+  Rendered layout layouts/application.html.erb (Duration: 27.6ms | Allocations: 2926)
+Completed 200 OK in 29ms (Views: 28.0ms | ActiveRecord: 0.1ms | Allocations: 3311)
+Started GET "/cable" for 127.0.0.1 at 2021-11-29 18:16:35 +0200
+Started GET "/cable/" [WebSocket] for 127.0.0.1 at 2021-11-29 18:16:35 +0200
+Successfully upgraded to WebSocket (REQUEST_METHOD: GET, HTTP_CONNECTION: Upgrade, HTTP_UPGRADE: websocket)
+GamesChannel is transmitting the subscription confirmation
+GamesChannel is streaming from games
+Started GET "/orders/new" for 127.0.0.1 at 2021-11-29 18:16:35 +0200
+Processing by OrdersController#new as HTML
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mCart Create (10.5ms)[0m  [1m[32mINSERT INTO "carts" ("created_at", "updated_at") VALUES (?, ?)[0m  [["created_at", "2021-11-29 16:16:35.774236"], ["updated_at", "2021-11-29 16:16:35.774236"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mLineItem Exists? (0.1ms)[0m  [1m[34mSELECT 1 AS one FROM "line_items" WHERE "line_items"."cart_id" = ? LIMIT ?[0m  [["cart_id", 980190963], ["LIMIT", 1]]
+Redirected to http://127.0.0.1:41443/store/index
+Filter chain halted as :ensure_cart_isnt_empty rendered or redirected
+Completed 302 Found in 34ms (ActiveRecord: 10.8ms | Allocations: 2350)
+Started GET "/store/index" for 127.0.0.1 at 2021-11-29 18:16:35 +0200
+Processing by StoreController#index as HTML
+  [1m[36mCart Load (0.1ms)[0m  [1m[34mSELECT "carts".* FROM "carts" WHERE "carts"."id" = ? LIMIT ?[0m  [["id", 980190963], ["LIMIT", 1]]
+  Rendering layout layouts/application.html.erb
+  Rendering store/index.html.erb within layouts/application
+  [1m[36mGame Load (0.1ms)[0m  [1m[34mSELECT "games".* FROM "games" ORDER BY "games"."title" ASC[0m
+  Rendered store/index.html.erb within layouts/application (Duration: 7.3ms | Allocations: 3327)
+  Rendered layout layouts/application.html.erb (Duration: 7.5ms | Allocations: 3367)
+Completed 500 Internal Server Error in 15ms (ActiveRecord: 0.2ms | Allocations: 4105)
+Finished "/cable/" [WebSocket] for 127.0.0.1 at 2021-11-29 18:16:36 +0200
+GamesChannel stopped streaming from games
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[31mrollback transaction[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+---------------------------------
+OrdersTest: test_updating_a_Order
+---------------------------------
+  [1m[36mOrder Load (0.1ms)[0m  [1m[34mSELECT "orders".* FROM "orders" WHERE "orders"."id" = ? LIMIT ?[0m  [["id", 980190962], ["LIMIT", 1]]
+Started GET "/orders" for 127.0.0.1 at 2021-11-29 18:16:36 +0200
+Processing by OrdersController#index as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering orders/index.html.erb within layouts/application
+  [1m[36mOrder Load (0.1ms)[0m  [1m[34mSELECT "orders".* FROM "orders"[0m
+  Rendered orders/index.html.erb within layouts/application (Duration: 1.0ms | Allocations: 357)
+[Webpacker] Everything's up-to-date. Nothing to do
+  Rendered layout layouts/application.html.erb (Duration: 15.7ms | Allocations: 2919)
+Completed 200 OK in 17ms (Views: 16.0ms | ActiveRecord: 0.1ms | Allocations: 3303)
+Started GET "/cable" for 127.0.0.1 at 2021-11-29 18:16:36 +0200
+Started GET "/cable/" [WebSocket] for 127.0.0.1 at 2021-11-29 18:16:36 +0200
+Successfully upgraded to WebSocket (REQUEST_METHOD: GET, HTTP_CONNECTION: Upgrade, HTTP_UPGRADE: websocket)
+GamesChannel is transmitting the subscription confirmation
+GamesChannel is streaming from games
+Started GET "/orders/298486374/edit" for 127.0.0.1 at 2021-11-29 18:16:36 +0200
+Processing by OrdersController#edit as HTML
+  Parameters: {"id"=>"298486374"}
+  [1m[36mOrder Load (0.1ms)[0m  [1m[34mSELECT "orders".* FROM "orders" WHERE "orders"."id" = ? LIMIT ?[0m  [["id", 298486374], ["LIMIT", 1]]
+  Rendering layout layouts/application.html.erb
+  Rendering orders/edit.html.erb within layouts/application
+  Rendered orders/_form.html.erb (Duration: 19.1ms | Allocations: 3761)
+  Rendered orders/edit.html.erb within layouts/application (Duration: 36.8ms | Allocations: 5605)
+[Webpacker] Everything's up-to-date. Nothing to do
+  Rendered layout layouts/application.html.erb (Duration: 42.3ms | Allocations: 8156)
+Completed 200 OK in 50ms (Views: 42.7ms | ActiveRecord: 0.1ms | Allocations: 8767)
+Finished "/cable/" [WebSocket] for 127.0.0.1 at 2021-11-29 18:16:38 +0200
+GamesChannel stopped streaming from games
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mrollback transaction[0m
+  [1m[35m (0.5ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ?[0m  [["key", "schema_sha1"]]
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA defer_foreign_keys[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mFixtures Load (2.9ms)[0m  [1m[31mDELETE FROM "carts";
+DELETE FROM "games";
+DELETE FROM "line_items";
+DELETE FROM "orders";
+INSERT INTO "carts" ("id", "created_at", "updated_at") VALUES (980190962, '2021-11-29 16:21:39.412538', '2021-11-29 16:21:39.412538');
+INSERT INTO "carts" ("id", "created_at", "updated_at") VALUES (298486374, '2021-11-29 16:21:39.412538', '2021-11-29 16:21:39.412538');
+INSERT INTO "games" ("id", "image", "title", "description", "genre", "price", "created_at", "updated_at") VALUES (980190962, 'MyString', 'MyString', 'MyText', 'MyString', 9.99, '2021-11-29 16:21:39.421150', '2021-11-29 16:21:39.421150');
+INSERT INTO "games" ("id", "image", "title", "description", "genre", "price", "created_at", "updated_at") VALUES (298486374, 'MyString', 'MyString', 'MyText', 'MyString', 9.99, '2021-11-29 16:21:39.421150', '2021-11-29 16:21:39.421150');
+INSERT INTO "line_items" ("id", "game_id", "cart_id", "created_at", "updated_at") VALUES (980190962, 298486374, 980190962, '2021-11-29 16:21:39.423672', '2021-11-29 16:21:39.423672');
+INSERT INTO "line_items" ("id", "game_id", "created_at", "updated_at", "order_id") VALUES (298486374, 671447580, '2021-11-29 16:21:39.423672', '2021-11-29 16:21:39.423672', 980190962);
+INSERT INTO "orders" ("id", "name", "address", "email", "pay_type", "created_at", "updated_at") VALUES (980190962, 'Dave Thomas', 'MyText', 'dave@example.org', 0, '2021-11-29 16:21:39.428610', '2021-11-29 16:21:39.428610');
+INSERT INTO "orders" ("id", "name", "address", "email", "pay_type", "created_at", "updated_at") VALUES (298486374, 'MyString', 'MyText', 'MyString', 1, '2021-11-29 16:21:39.428610', '2021-11-29 16:21:39.428610')[0m
+  [1m[36mTRANSACTION (16.9ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.5ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+---------------------------------
+OrdersTest: test_updating_a_Order
+---------------------------------
+  [1m[36mOrder Load (0.2ms)[0m  [1m[34mSELECT "orders".* FROM "orders" WHERE "orders"."id" = ? LIMIT ?[0m  [["id", 980190962], ["LIMIT", 1]]
+Started GET "/orders" for 127.0.0.1 at 2021-11-29 18:21:41 +0200
+Processing by OrdersController#index as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering orders/index.html.erb within layouts/application
+  [1m[36mOrder Load (0.2ms)[0m  [1m[34mSELECT "orders".* FROM "orders"[0m
+  Rendered orders/index.html.erb within layouts/application (Duration: 5.6ms | Allocations: 1063)
+[Webpacker] Everything's up-to-date. Nothing to do
+  Rendered layout layouts/application.html.erb (Duration: 352.4ms | Allocations: 47580)
+Completed 200 OK in 367ms (Views: 354.9ms | ActiveRecord: 0.2ms | Allocations: 50751)
+Started GET "/assets/application-530592f6e95e2bdf1a3e83ff66a7053e9ead5e0d2d150019960299a276d9b29c.css" for 127.0.0.1 at 2021-11-29 18:21:41 +0200
+Started GET "/assets/logo1-8d316f611adf36d633b059760a6f565b0ad005b75e15dd0ac2eff0a6a8774eaa.svg" for 127.0.0.1 at 2021-11-29 18:21:41 +0200
+Started GET "/cable" for 127.0.0.1 at 2021-11-29 18:21:41 +0200
+Started GET "/cable/" [WebSocket] for 127.0.0.1 at 2021-11-29 18:21:41 +0200
+Successfully upgraded to WebSocket (REQUEST_METHOD: GET, HTTP_CONNECTION: Upgrade, HTTP_UPGRADE: websocket)
+GamesChannel is transmitting the subscription confirmation
+GamesChannel is streaming from games
+Started GET "/orders/298486374/edit" for 127.0.0.1 at 2021-11-29 18:21:41 +0200
+Processing by OrdersController#edit as HTML
+  Parameters: {"id"=>"298486374"}
+  [1m[36mOrder Load (0.3ms)[0m  [1m[34mSELECT "orders".* FROM "orders" WHERE "orders"."id" = ? LIMIT ?[0m  [["id", 298486374], ["LIMIT", 1]]
+  Rendering layout layouts/application.html.erb
+  Rendering orders/edit.html.erb within layouts/application
+  Rendered orders/_form.html.erb (Duration: 9.6ms | Allocations: 2834)
+  Rendered orders/edit.html.erb within layouts/application (Duration: 23.5ms | Allocations: 4135)
+[Webpacker] Everything's up-to-date. Nothing to do
+  Rendered layout layouts/application.html.erb (Duration: 34.0ms | Allocations: 7100)
+Completed 200 OK in 67ms (Views: 34.5ms | ActiveRecord: 0.3ms | Allocations: 8988)
+Finished "/cable/" [WebSocket] for 127.0.0.1 at 2021-11-29 18:21:44 +0200
+GamesChannel stopped streaming from games
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mrollback transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+-------------------------------------
+OrdersTest: test_check_routing_number
+-------------------------------------
+  [1m[36mOrder Load (0.1ms)[0m  [1m[34mSELECT "orders".* FROM "orders" WHERE "orders"."id" = ? LIMIT ?[0m  [["id", 980190962], ["LIMIT", 1]]
+  [1m[36mLineItem Destroy (2.7ms)[0m  [1m[31mDELETE FROM "line_items"[0m
+  [1m[36mOrder Destroy (0.7ms)[0m  [1m[31mDELETE FROM "orders"[0m
+Started GET "/store/index" for 127.0.0.1 at 2021-11-29 18:21:44 +0200
+Processing by StoreController#index as HTML
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mCart Create (3.9ms)[0m  [1m[32mINSERT INTO "carts" ("created_at", "updated_at") VALUES (?, ?)[0m  [["created_at", "2021-11-29 16:21:44.227884"], ["updated_at", "2021-11-29 16:21:44.227884"]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  Rendering layout layouts/application.html.erb
+  Rendering store/index.html.erb within layouts/application
+  [1m[36mGame Load (0.3ms)[0m  [1m[34mSELECT "games".* FROM "games" ORDER BY "games"."title" ASC[0m
+  Rendered store/index.html.erb within layouts/application (Duration: 35.7ms | Allocations: 6733)
+  Rendered layout layouts/application.html.erb (Duration: 35.9ms | Allocations: 6775)
+Completed 500 Internal Server Error in 68ms (ActiveRecord: 4.4ms | Allocations: 10087)
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[31mrollback transaction[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+-----------------------------------
+OrdersTest: test_visiting_the_index
+-----------------------------------
+  [1m[36mOrder Load (0.2ms)[0m  [1m[34mSELECT "orders".* FROM "orders" WHERE "orders"."id" = ? LIMIT ?[0m  [["id", 980190962], ["LIMIT", 1]]
+Started GET "/orders" for 127.0.0.1 at 2021-11-29 18:21:44 +0200
+Processing by OrdersController#index as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering orders/index.html.erb within layouts/application
+  [1m[36mOrder Load (0.1ms)[0m  [1m[34mSELECT "orders".* FROM "orders"[0m
+  Rendered orders/index.html.erb within layouts/application (Duration: 3.8ms | Allocations: 363)
+[Webpacker] Everything's up-to-date. Nothing to do
+  Rendered layout layouts/application.html.erb (Duration: 21.3ms | Allocations: 2936)
+Completed 200 OK in 24ms (Views: 21.7ms | ActiveRecord: 0.1ms | Allocations: 3333)
+Started GET "/cable" for 127.0.0.1 at 2021-11-29 18:21:44 +0200
+Started GET "/cable/" [WebSocket] for 127.0.0.1 at 2021-11-29 18:21:44 +0200
+Successfully upgraded to WebSocket (REQUEST_METHOD: GET, HTTP_CONNECTION: Upgrade, HTTP_UPGRADE: websocket)
+GamesChannel is transmitting the subscription confirmation
+GamesChannel is streaming from games
+Finished "/cable/" [WebSocket] for 127.0.0.1 at 2021-11-29 18:21:44 +0200
+GamesChannel stopped streaming from games
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mrollback transaction[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+---------------------------------
+OrdersTest: test_creating_a_Order
+---------------------------------
+  [1m[36mOrder Load (0.1ms)[0m  [1m[34mSELECT "orders".* FROM "orders" WHERE "orders"."id" = ? LIMIT ?[0m  [["id", 980190962], ["LIMIT", 1]]
+Started GET "/orders" for 127.0.0.1 at 2021-11-29 18:21:45 +0200
+Processing by OrdersController#index as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering orders/index.html.erb within layouts/application
+  [1m[36mOrder Load (0.1ms)[0m  [1m[34mSELECT "orders".* FROM "orders"[0m
+  Rendered orders/index.html.erb within layouts/application (Duration: 4.6ms | Allocations: 357)
+[Webpacker] Everything's up-to-date. Nothing to do
+  Rendered layout layouts/application.html.erb (Duration: 10.2ms | Allocations: 2916)
+Completed 200 OK in 12ms (Views: 10.7ms | ActiveRecord: 0.1ms | Allocations: 3300)
+Started GET "/cable" for 127.0.0.1 at 2021-11-29 18:21:45 +0200
+Started GET "/cable/" [WebSocket] for 127.0.0.1 at 2021-11-29 18:21:45 +0200
+Successfully upgraded to WebSocket (REQUEST_METHOD: GET, HTTP_CONNECTION: Upgrade, HTTP_UPGRADE: websocket)
+GamesChannel is transmitting the subscription confirmation
+GamesChannel is streaming from games
+Started GET "/orders/new" for 127.0.0.1 at 2021-11-29 18:21:45 +0200
+Processing by OrdersController#new as HTML
+  [1m[36mTRANSACTION (0.3ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mCart Create (13.1ms)[0m  [1m[32mINSERT INTO "carts" ("created_at", "updated_at") VALUES (?, ?)[0m  [["created_at", "2021-11-29 16:21:45.208810"], ["updated_at", "2021-11-29 16:21:45.208810"]]
+  [1m[36mTRANSACTION (0.2ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+  [1m[36mLineItem Exists? (0.1ms)[0m  [1m[34mSELECT 1 AS one FROM "line_items" WHERE "line_items"."cart_id" = ? LIMIT ?[0m  [["cart_id", 980190963], ["LIMIT", 1]]
+Redirected to http://127.0.0.1:44647/store/index
+Filter chain halted as :ensure_cart_isnt_empty rendered or redirected
+Completed 302 Found in 52ms (ActiveRecord: 13.7ms | Allocations: 4186)
+Started GET "/store/index" for 127.0.0.1 at 2021-11-29 18:21:45 +0200
+Processing by StoreController#index as HTML
+  [1m[36mCart Load (0.1ms)[0m  [1m[34mSELECT "carts".* FROM "carts" WHERE "carts"."id" = ? LIMIT ?[0m  [["id", 980190963], ["LIMIT", 1]]
+  Rendering layout layouts/application.html.erb
+  Rendering store/index.html.erb within layouts/application
+  [1m[36mGame Load (0.1ms)[0m  [1m[34mSELECT "games".* FROM "games" ORDER BY "games"."title" ASC[0m
+  Rendered store/index.html.erb within layouts/application (Duration: 13.4ms | Allocations: 3659)
+  Rendered layout layouts/application.html.erb (Duration: 13.6ms | Allocations: 3699)
+Completed 500 Internal Server Error in 16ms (ActiveRecord: 0.2ms | Allocations: 4465)
+Finished "/cable/" [WebSocket] for 127.0.0.1 at 2021-11-29 18:21:45 +0200
+GamesChannel stopped streaming from games
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mrollback transaction[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+-----------------------------------
+OrdersTest: test_destroying_a_Order
+-----------------------------------
+  [1m[36mOrder Load (0.1ms)[0m  [1m[34mSELECT "orders".* FROM "orders" WHERE "orders"."id" = ? LIMIT ?[0m  [["id", 980190962], ["LIMIT", 1]]
+Started GET "/orders" for 127.0.0.1 at 2021-11-29 18:21:45 +0200
+Processing by OrdersController#index as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering orders/index.html.erb within layouts/application
+  [1m[36mOrder Load (0.1ms)[0m  [1m[34mSELECT "orders".* FROM "orders"[0m
+  Rendered orders/index.html.erb within layouts/application (Duration: 8.3ms | Allocations: 357)
+[Webpacker] Everything's up-to-date. Nothing to do
+  Rendered layout layouts/application.html.erb (Duration: 18.2ms | Allocations: 2928)
+Completed 200 OK in 19ms (Views: 18.6ms | ActiveRecord: 0.1ms | Allocations: 3312)
+Started GET "/cable" for 127.0.0.1 at 2021-11-29 18:21:45 +0200
+Started GET "/cable/" [WebSocket] for 127.0.0.1 at 2021-11-29 18:21:45 +0200
+Successfully upgraded to WebSocket (REQUEST_METHOD: GET, HTTP_CONNECTION: Upgrade, HTTP_UPGRADE: websocket)
+GamesChannel is transmitting the subscription confirmation
+GamesChannel is streaming from games
+Started DELETE "/orders/298486374" for 127.0.0.1 at 2021-11-29 18:21:46 +0200
+Processing by OrdersController#destroy as HTML
+  Parameters: {"id"=>"298486374"}
+  [1m[36mOrder Load (0.1ms)[0m  [1m[34mSELECT "orders".* FROM "orders" WHERE "orders"."id" = ? LIMIT ?[0m  [["id", 298486374], ["LIMIT", 1]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mSAVEPOINT active_record_1[0m
+  [1m[36mLineItem Load (0.1ms)[0m  [1m[34mSELECT "line_items".* FROM "line_items" WHERE "line_items"."order_id" = ?[0m  [["order_id", 298486374]]
+  [1m[36mOrder Destroy (4.5ms)[0m  [1m[31mDELETE FROM "orders" WHERE "orders"."id" = ?[0m  [["id", 298486374]]
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[35mRELEASE SAVEPOINT active_record_1[0m
+Redirected to http://127.0.0.1:44647/orders
+Completed 302 Found in 26ms (ActiveRecord: 4.8ms | Allocations: 1174)
+Started GET "/orders" for 127.0.0.1 at 2021-11-29 18:21:46 +0200
+Processing by OrdersController#index as HTML
+  Rendering layout layouts/application.html.erb
+  Rendering orders/index.html.erb within layouts/application
+  [1m[36mOrder Load (0.1ms)[0m  [1m[34mSELECT "orders".* FROM "orders"[0m
+  Rendered orders/index.html.erb within layouts/application (Duration: 0.8ms | Allocations: 248)
+[Webpacker] Everything's up-to-date. Nothing to do
+  Rendered layout layouts/application.html.erb (Duration: 7.3ms | Allocations: 2807)
+Completed 200 OK in 9ms (Views: 7.8ms | ActiveRecord: 0.1ms | Allocations: 3299)
+Finished "/cable/" [WebSocket] for 127.0.0.1 at 2021-11-29 18:21:46 +0200
+GamesChannel stopped streaming from games
+Started GET "/cable" for 127.0.0.1 at 2021-11-29 18:21:46 +0200
+Started GET "/cable/" [WebSocket] for 127.0.0.1 at 2021-11-29 18:21:46 +0200
+Successfully upgraded to WebSocket (REQUEST_METHOD: GET, HTTP_CONNECTION: Upgrade, HTTP_UPGRADE: websocket)
+GamesChannel is transmitting the subscription confirmation
+GamesChannel is streaming from games
+Finished "/cable/" [WebSocket] for 127.0.0.1 at 2021-11-29 18:21:46 +0200
+GamesChannel stopped streaming from games
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mrollback transaction[0m
+  [1m[35m (0.4ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (1.8ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ?[0m  [["key", "schema_sha1"]]
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.8ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.2ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA defer_foreign_keys[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mFixtures Load (2.5ms)[0m  [1m[31mDELETE FROM "carts";
+DELETE FROM "games";
+DELETE FROM "line_items";
+DELETE FROM "orders";
+INSERT INTO "carts" ("id", "created_at", "updated_at") VALUES (980190962, '2021-11-30 16:57:22.059837', '2021-11-30 16:57:22.059837');
+INSERT INTO "carts" ("id", "created_at", "updated_at") VALUES (298486374, '2021-11-30 16:57:22.059837', '2021-11-30 16:57:22.059837');
+INSERT INTO "games" ("id", "image", "title", "description", "genre", "price", "created_at", "updated_at") VALUES (980190962, 'MyString', 'MyString', 'MyText', 'MyString', 9.99, '2021-11-30 16:57:22.089004', '2021-11-30 16:57:22.089004');
+INSERT INTO "games" ("id", "image", "title", "description", "genre", "price", "created_at", "updated_at") VALUES (298486374, 'MyString', 'MyString', 'MyText', 'MyString', 9.99, '2021-11-30 16:57:22.089004', '2021-11-30 16:57:22.089004');
+INSERT INTO "line_items" ("id", "game_id", "cart_id", "created_at", "updated_at") VALUES (980190962, 298486374, 980190962, '2021-11-30 16:57:22.102461', '2021-11-30 16:57:22.102461');
+INSERT INTO "line_items" ("id", "game_id", "created_at", "updated_at", "order_id") VALUES (298486374, 671447580, '2021-11-30 16:57:22.102461', '2021-11-30 16:57:22.102461', 980190962);
+INSERT INTO "orders" ("id", "name", "address", "email", "pay_type", "created_at", "updated_at") VALUES (980190962, 'Dave Thomas', 'MyText', 'dave@example.org', 0, '2021-11-30 16:57:22.116763', '2021-11-30 16:57:22.116763');
+INSERT INTO "orders" ("id", "name", "address", "email", "pay_type", "created_at", "updated_at") VALUES (298486374, 'MyString', 'MyText', 'MyString', 1, '2021-11-30 16:57:22.116763', '2021-11-30 16:57:22.116763')[0m
+  [1m[36mTRANSACTION (29.7ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+------------------------------
+OrderMailerTest: test_received
+------------------------------
+OrderMailer#received: processed outbound mail in 12.4ms
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mrollback transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+-----------------------------
+OrderMailerTest: test_shipped
+-----------------------------
+OrderMailer#shipped: processed outbound mail in 0.3ms
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mrollback transaction[0m
+  [1m[35m (0.6ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ?[0m  [["key", "schema_sha1"]]
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA defer_foreign_keys[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mFixtures Load (0.4ms)[0m  [1m[31mDELETE FROM "carts";
+DELETE FROM "games";
+DELETE FROM "line_items";
+DELETE FROM "orders";
+INSERT INTO "carts" ("id", "created_at", "updated_at") VALUES (980190962, '2021-11-30 16:58:29.621686', '2021-11-30 16:58:29.621686');
+INSERT INTO "carts" ("id", "created_at", "updated_at") VALUES (298486374, '2021-11-30 16:58:29.621686', '2021-11-30 16:58:29.621686');
+INSERT INTO "games" ("id", "image", "title", "description", "genre", "price", "created_at", "updated_at") VALUES (980190962, 'MyString', 'MyString', 'MyText', 'MyString', 9.99, '2021-11-30 16:58:29.623272', '2021-11-30 16:58:29.623272');
+INSERT INTO "games" ("id", "image", "title", "description", "genre", "price", "created_at", "updated_at") VALUES (298486374, 'MyString', 'MyString', 'MyText', 'MyString', 9.99, '2021-11-30 16:58:29.623272', '2021-11-30 16:58:29.623272');
+INSERT INTO "line_items" ("id", "game_id", "cart_id", "created_at", "updated_at") VALUES (980190962, 298486374, 980190962, '2021-11-30 16:58:29.625003', '2021-11-30 16:58:29.625003');
+INSERT INTO "line_items" ("id", "game_id", "created_at", "updated_at", "order_id") VALUES (298486374, 671447580, '2021-11-30 16:58:29.625003', '2021-11-30 16:58:29.625003', 980190962);
+INSERT INTO "orders" ("id", "name", "address", "email", "pay_type", "created_at", "updated_at") VALUES (980190962, 'Dave Thomas', 'MyText', 'dave@example.org', 0, '2021-11-30 16:58:29.630742', '2021-11-30 16:58:29.630742');
+INSERT INTO "orders" ("id", "name", "address", "email", "pay_type", "created_at", "updated_at") VALUES (298486374, 'MyString', 'MyText', 'MyString', 1, '2021-11-30 16:58:29.630742', '2021-11-30 16:58:29.630742')[0m
+  [1m[36mTRANSACTION (14.1ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+------------------------------
+OrderMailerTest: test_received
+------------------------------
+  [1m[36mOrder Load (0.2ms)[0m  [1m[34mSELECT "orders".* FROM "orders" WHERE "orders"."id" = ? LIMIT ?[0m  [["id", 980190962], ["LIMIT", 1]]
+  Rendering layout layouts/mailer.html.erb
+  Rendering order_mailer/received.html.erb within layouts/mailer
+  Rendered order_mailer/received.html.erb within layouts/mailer (Duration: 0.7ms | Allocations: 264)
+  Rendered layout layouts/mailer.html.erb (Duration: 1.1ms | Allocations: 433)
+  Rendering layout layouts/mailer.text.erb
+  Rendering order_mailer/received.text.erb within layouts/mailer
+  [1m[36mLineItem Load (0.2ms)[0m  [1m[34mSELECT "line_items".* FROM "line_items" WHERE "line_items"."order_id" = ?[0m  [["order_id", 980190962]]
+  Rendered collection of line_items/_line_item.text.erb [1 times] (Duration: 34.3ms | Allocations: 2945)
+  Rendered order_mailer/received.text.erb within layouts/mailer (Duration: 47.6ms | Allocations: 9137)
+  Rendered layout layouts/mailer.text.erb (Duration: 47.8ms | Allocations: 9177)
+OrderMailer#received: processed outbound mail in 64.9ms
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mrollback transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+-----------------------------
+OrderMailerTest: test_shipped
+-----------------------------
+  [1m[36mOrder Load (0.1ms)[0m  [1m[34mSELECT "orders".* FROM "orders" WHERE "orders"."id" = ? LIMIT ?[0m  [["id", 980190962], ["LIMIT", 1]]
+  Rendering layout layouts/mailer.html.erb
+  Rendering order_mailer/shipped.html.erb within layouts/mailer
+  [1m[36mLineItem Load (0.1ms)[0m  [1m[34mSELECT "line_items".* FROM "line_items" WHERE "line_items"."order_id" = ?[0m  [["order_id", 980190962]]
+  [1m[36mGame Load (0.1ms)[0m  [1m[34mSELECT "games".* FROM "games" WHERE "games"."id" = ? LIMIT ?[0m  [["id", 671447580], ["LIMIT", 1]]
+  Rendered collection of line_items/_line_item.html.erb [1 times] (Duration: 3.7ms | Allocations: 1417)
+  Rendered order_mailer/shipped.html.erb within layouts/mailer (Duration: 5.3ms | Allocations: 1933)
+  Rendered layout layouts/mailer.html.erb (Duration: 5.5ms | Allocations: 1973)
+OrderMailer#shipped: processed outbound mail in 7.5ms
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mrollback transaction[0m
+  [1m[35m (0.5ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ?[0m  [["key", "schema_sha1"]]
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA defer_foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mFixtures Load (0.4ms)[0m  [1m[31mDELETE FROM "carts";
+DELETE FROM "games";
+DELETE FROM "line_items";
+DELETE FROM "orders";
+INSERT INTO "carts" ("id", "created_at", "updated_at") VALUES (980190962, '2021-11-30 16:59:10.920671', '2021-11-30 16:59:10.920671');
+INSERT INTO "carts" ("id", "created_at", "updated_at") VALUES (298486374, '2021-11-30 16:59:10.920671', '2021-11-30 16:59:10.920671');
+INSERT INTO "games" ("id", "image", "title", "description", "genre", "price", "created_at", "updated_at") VALUES (980190962, 'MyString', 'MyString', 'MyText', 'MyString', 9.99, '2021-11-30 16:59:10.922283', '2021-11-30 16:59:10.922283');
+INSERT INTO "games" ("id", "image", "title", "description", "genre", "price", "created_at", "updated_at") VALUES (298486374, 'MyString', 'MyString', 'MyText', 'MyString', 9.99, '2021-11-30 16:59:10.922283', '2021-11-30 16:59:10.922283');
+INSERT INTO "line_items" ("id", "game_id", "cart_id", "created_at", "updated_at") VALUES (980190962, 298486374, 980190962, '2021-11-30 16:59:10.931300', '2021-11-30 16:59:10.931300');
+INSERT INTO "line_items" ("id", "game_id", "created_at", "updated_at", "order_id") VALUES (298486374, 671447580, '2021-11-30 16:59:10.931300', '2021-11-30 16:59:10.931300', 980190962);
+INSERT INTO "orders" ("id", "name", "address", "email", "pay_type", "created_at", "updated_at") VALUES (980190962, 'Dave Thomas', 'MyText', 'dave@example.org', 0, '2021-11-30 16:59:10.934143', '2021-11-30 16:59:10.934143');
+INSERT INTO "orders" ("id", "name", "address", "email", "pay_type", "created_at", "updated_at") VALUES (298486374, 'MyString', 'MyText', 'MyString', 1, '2021-11-30 16:59:10.934143', '2021-11-30 16:59:10.934143')[0m
+  [1m[36mTRANSACTION (11.4ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.2ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+------------------------------
+OrderMailerTest: test_received
+------------------------------
+  [1m[36mOrder Load (0.2ms)[0m  [1m[34mSELECT "orders".* FROM "orders" WHERE "orders"."id" = ? LIMIT ?[0m  [["id", 980190962], ["LIMIT", 1]]
+  Rendering layout layouts/mailer.html.erb
+  Rendering order_mailer/received.html.erb within layouts/mailer
+  Rendered order_mailer/received.html.erb within layouts/mailer (Duration: 0.8ms | Allocations: 264)
+  Rendered layout layouts/mailer.html.erb (Duration: 1.2ms | Allocations: 433)
+  Rendering layout layouts/mailer.text.erb
+  Rendering order_mailer/received.text.erb within layouts/mailer
+  [1m[36mLineItem Load (0.2ms)[0m  [1m[34mSELECT "line_items".* FROM "line_items" WHERE "line_items"."order_id" = ?[0m  [["order_id", 980190962]]
+  [1m[36mGame Load (0.1ms)[0m  [1m[34mSELECT "games".* FROM "games" WHERE "games"."id" = ? LIMIT ?[0m  [["id", 671447580], ["LIMIT", 1]]
+  Rendered collection of line_items/_line_item.text.erb [1 times] (Duration: 4.1ms | Allocations: 1693)
+  Rendered order_mailer/received.text.erb within layouts/mailer (Duration: 17.8ms | Allocations: 7890)
+  Rendered layout layouts/mailer.text.erb (Duration: 17.9ms | Allocations: 7930)
+OrderMailer#received: processed outbound mail in 36.9ms
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mrollback transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+-----------------------------
+OrderMailerTest: test_shipped
+-----------------------------
+  [1m[36mOrder Load (0.1ms)[0m  [1m[34mSELECT "orders".* FROM "orders" WHERE "orders"."id" = ? LIMIT ?[0m  [["id", 980190962], ["LIMIT", 1]]
+  Rendering layout layouts/mailer.html.erb
+  Rendering order_mailer/shipped.html.erb within layouts/mailer
+  [1m[36mLineItem Load (0.1ms)[0m  [1m[34mSELECT "line_items".* FROM "line_items" WHERE "line_items"."order_id" = ?[0m  [["order_id", 980190962]]
+  [1m[36mGame Load (0.0ms)[0m  [1m[34mSELECT "games".* FROM "games" WHERE "games"."id" = ? LIMIT ?[0m  [["id", 671447580], ["LIMIT", 1]]
+  Rendered collection of line_items/_line_item.html.erb [1 times] (Duration: 3.5ms | Allocations: 1014)
+  Rendered order_mailer/shipped.html.erb within layouts/mailer (Duration: 4.9ms | Allocations: 1527)
+  Rendered layout layouts/mailer.html.erb (Duration: 5.1ms | Allocations: 1567)
+OrderMailer#shipped: processed outbound mail in 6.3ms
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mrollback transaction[0m
+  [1m[35m (0.5ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ?[0m  [["key", "schema_sha1"]]
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA defer_foreign_keys[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mFixtures Load (1.5ms)[0m  [1m[31mDELETE FROM "carts";
+DELETE FROM "games";
+DELETE FROM "line_items";
+DELETE FROM "orders";
+INSERT INTO "carts" ("id", "created_at", "updated_at") VALUES (980190962, '2021-11-30 17:00:15.073998', '2021-11-30 17:00:15.073998');
+INSERT INTO "carts" ("id", "created_at", "updated_at") VALUES (298486374, '2021-11-30 17:00:15.073998', '2021-11-30 17:00:15.073998');
+INSERT INTO "games" ("id", "image", "title", "description", "genre", "price", "created_at", "updated_at") VALUES (980190962, 'MyString', 'MyString', 'MyText', 'MyString', 9.99, '2021-11-30 17:00:15.075768', '2021-11-30 17:00:15.075768');
+INSERT INTO "games" ("id", "image", "title", "description", "genre", "price", "created_at", "updated_at") VALUES (298486374, 'MyString', 'MyString', 'MyText', 'MyString', 9.99, '2021-11-30 17:00:15.075768', '2021-11-30 17:00:15.075768');
+INSERT INTO "line_items" ("id", "game_id", "cart_id", "created_at", "updated_at") VALUES (980190962, 298486374, 980190962, '2021-11-30 17:00:15.083182', '2021-11-30 17:00:15.083182');
+INSERT INTO "line_items" ("id", "game_id", "created_at", "updated_at", "order_id") VALUES (298486374, 671447580, '2021-11-30 17:00:15.083182', '2021-11-30 17:00:15.083182', 980190962);
+INSERT INTO "orders" ("id", "name", "address", "email", "pay_type", "created_at", "updated_at") VALUES (980190962, 'Dave Thomas', 'MyText', 'dave@example.org', 0, '2021-11-30 17:00:15.086302', '2021-11-30 17:00:15.086302');
+INSERT INTO "orders" ("id", "name", "address", "email", "pay_type", "created_at", "updated_at") VALUES (298486374, 'MyString', 'MyText', 'MyString', 1, '2021-11-30 17:00:15.086302', '2021-11-30 17:00:15.086302')[0m
+  [1m[36mTRANSACTION (12.2ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+------------------------------
+OrderMailerTest: test_received
+------------------------------
+  [1m[36mOrder Load (0.2ms)[0m  [1m[34mSELECT "orders".* FROM "orders" WHERE "orders"."id" = ? LIMIT ?[0m  [["id", 980190962], ["LIMIT", 1]]
+  Rendering layout layouts/mailer.html.erb
+  Rendering order_mailer/received.html.erb within layouts/mailer
+  Rendered order_mailer/received.html.erb within layouts/mailer (Duration: 0.5ms | Allocations: 264)
+  Rendered layout layouts/mailer.html.erb (Duration: 0.9ms | Allocations: 433)
+  Rendering layout layouts/mailer.text.erb
+  Rendering order_mailer/received.text.erb within layouts/mailer
+  [1m[36mLineItem Load (0.2ms)[0m  [1m[34mSELECT "line_items".* FROM "line_items" WHERE "line_items"."order_id" = ?[0m  [["order_id", 980190962]]
+  Rendered collection of line_items/_line_item.text.erb [1 times] (Duration: 23.9ms | Allocations: 3749)
+  Rendered order_mailer/received.text.erb within layouts/mailer (Duration: 39.0ms | Allocations: 9941)
+  Rendered layout layouts/mailer.text.erb (Duration: 39.2ms | Allocations: 9981)
+OrderMailer#received: processed outbound mail in 56.4ms
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mrollback transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+-----------------------------
+OrderMailerTest: test_shipped
+-----------------------------
+  [1m[36mOrder Load (0.1ms)[0m  [1m[34mSELECT "orders".* FROM "orders" WHERE "orders"."id" = ? LIMIT ?[0m  [["id", 980190962], ["LIMIT", 1]]
+  Rendering layout layouts/mailer.html.erb
+  Rendering order_mailer/shipped.html.erb within layouts/mailer
+  [1m[36mLineItem Load (0.1ms)[0m  [1m[34mSELECT "line_items".* FROM "line_items" WHERE "line_items"."order_id" = ?[0m  [["order_id", 980190962]]
+  [1m[36mGame Load (0.1ms)[0m  [1m[34mSELECT "games".* FROM "games" WHERE "games"."id" = ? LIMIT ?[0m  [["id", 671447580], ["LIMIT", 1]]
+  Rendered collection of line_items/_line_item.html.erb [1 times] (Duration: 3.5ms | Allocations: 1437)
+  Rendered order_mailer/shipped.html.erb within layouts/mailer (Duration: 5.8ms | Allocations: 1950)
+  Rendered layout layouts/mailer.html.erb (Duration: 5.9ms | Allocations: 1990)
+OrderMailer#shipped: processed outbound mail in 7.1ms
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mrollback transaction[0m
+  [1m[35m (0.5ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ?[0m  [["key", "schema_sha1"]]
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mFixtures Load (0.4ms)[0m  [1m[31mDELETE FROM "carts";
+DELETE FROM "games";
+DELETE FROM "line_items";
+DELETE FROM "orders";
+INSERT INTO "carts" ("id", "created_at", "updated_at") VALUES (980190962, '2021-11-30 17:00:22.039764', '2021-11-30 17:00:22.039764');
+INSERT INTO "carts" ("id", "created_at", "updated_at") VALUES (298486374, '2021-11-30 17:00:22.039764', '2021-11-30 17:00:22.039764');
+INSERT INTO "games" ("id", "image", "title", "description", "genre", "price", "created_at", "updated_at") VALUES (980190962, 'MyString', 'MyString', 'MyText', 'MyString', 9.99, '2021-11-30 17:00:22.041240', '2021-11-30 17:00:22.041240');
+INSERT INTO "games" ("id", "image", "title", "description", "genre", "price", "created_at", "updated_at") VALUES (298486374, 'MyString', 'MyString', 'MyText', 'MyString', 9.99, '2021-11-30 17:00:22.041240', '2021-11-30 17:00:22.041240');
+INSERT INTO "line_items" ("id", "game_id", "cart_id", "created_at", "updated_at") VALUES (980190962, 298486374, 980190962, '2021-11-30 17:00:22.043013', '2021-11-30 17:00:22.043013');
+INSERT INTO "line_items" ("id", "game_id", "created_at", "updated_at", "order_id") VALUES (298486374, 671447580, '2021-11-30 17:00:22.043013', '2021-11-30 17:00:22.043013', 980190962);
+INSERT INTO "orders" ("id", "name", "address", "email", "pay_type", "created_at", "updated_at") VALUES (980190962, 'Dave Thomas', 'MyText', 'dave@example.org', 0, '2021-11-30 17:00:22.049060', '2021-11-30 17:00:22.049060');
+INSERT INTO "orders" ("id", "name", "address", "email", "pay_type", "created_at", "updated_at") VALUES (298486374, 'MyString', 'MyText', 'MyString', 1, '2021-11-30 17:00:22.049060', '2021-11-30 17:00:22.049060')[0m
+  [1m[36mTRANSACTION (13.1ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+-----------------------------
+OrderMailerTest: test_shipped
+-----------------------------
+  [1m[36mOrder Load (0.2ms)[0m  [1m[34mSELECT "orders".* FROM "orders" WHERE "orders"."id" = ? LIMIT ?[0m  [["id", 980190962], ["LIMIT", 1]]
+  Rendering layout layouts/mailer.html.erb
+  Rendering order_mailer/shipped.html.erb within layouts/mailer
+  [1m[36mLineItem Load (0.2ms)[0m  [1m[34mSELECT "line_items".* FROM "line_items" WHERE "line_items"."order_id" = ?[0m  [["order_id", 980190962]]
+  [1m[36mGame Load (0.1ms)[0m  [1m[34mSELECT "games".* FROM "games" WHERE "games"."id" = ? LIMIT ?[0m  [["id", 671447580], ["LIMIT", 1]]
+  Rendered collection of line_items/_line_item.html.erb [1 times] (Duration: 4.9ms | Allocations: 1810)
+  Rendered order_mailer/shipped.html.erb within layouts/mailer (Duration: 20.0ms | Allocations: 8144)
+  Rendered layout layouts/mailer.html.erb (Duration: 20.2ms | Allocations: 8195)
+OrderMailer#shipped: processed outbound mail in 36.5ms
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mrollback transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+------------------------------
+OrderMailerTest: test_received
+------------------------------
+  [1m[36mOrder Load (0.1ms)[0m  [1m[34mSELECT "orders".* FROM "orders" WHERE "orders"."id" = ? LIMIT ?[0m  [["id", 980190962], ["LIMIT", 1]]
+  Rendering layout layouts/mailer.html.erb
+  Rendering order_mailer/received.html.erb within layouts/mailer
+  Rendered order_mailer/received.html.erb within layouts/mailer (Duration: 0.3ms | Allocations: 94)
+  Rendered layout layouts/mailer.html.erb (Duration: 0.6ms | Allocations: 247)
+  Rendering layout layouts/mailer.text.erb
+  Rendering order_mailer/received.text.erb within layouts/mailer
+  [1m[36mLineItem Load (0.1ms)[0m  [1m[34mSELECT "line_items".* FROM "line_items" WHERE "line_items"."order_id" = ?[0m  [["order_id", 980190962]]
+  [1m[36mGame Load (0.1ms)[0m  [1m[34mSELECT "games".* FROM "games" WHERE "games"."id" = ? LIMIT ?[0m  [["id", 671447580], ["LIMIT", 1]]
+  Rendered collection of line_items/_line_item.text.erb [1 times] (Duration: 3.0ms | Allocations: 902)
+  Rendered order_mailer/received.text.erb within layouts/mailer (Duration: 4.4ms | Allocations: 1443)
+  Rendered layout layouts/mailer.text.erb (Duration: 6.6ms | Allocations: 1483)
+OrderMailer#received: processed outbound mail in 9.1ms
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mrollback transaction[0m
+  [1m[35m (0.5ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ?[0m  [["key", "schema_sha1"]]
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA defer_foreign_keys[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mFixtures Load (0.4ms)[0m  [1m[31mDELETE FROM "carts";
+DELETE FROM "games";
+DELETE FROM "line_items";
+DELETE FROM "orders";
+INSERT INTO "carts" ("id", "created_at", "updated_at") VALUES (980190962, '2021-11-30 17:00:28.388096', '2021-11-30 17:00:28.388096');
+INSERT INTO "carts" ("id", "created_at", "updated_at") VALUES (298486374, '2021-11-30 17:00:28.388096', '2021-11-30 17:00:28.388096');
+INSERT INTO "games" ("id", "image", "title", "description", "genre", "price", "created_at", "updated_at") VALUES (980190962, 'MyString', 'MyString', 'MyText', 'MyString', 9.99, '2021-11-30 17:00:28.389870', '2021-11-30 17:00:28.389870');
+INSERT INTO "games" ("id", "image", "title", "description", "genre", "price", "created_at", "updated_at") VALUES (298486374, 'MyString', 'MyString', 'MyText', 'MyString', 9.99, '2021-11-30 17:00:28.389870', '2021-11-30 17:00:28.389870');
+INSERT INTO "line_items" ("id", "game_id", "cart_id", "created_at", "updated_at") VALUES (980190962, 298486374, 980190962, '2021-11-30 17:00:28.395549', '2021-11-30 17:00:28.395549');
+INSERT INTO "line_items" ("id", "game_id", "created_at", "updated_at", "order_id") VALUES (298486374, 671447580, '2021-11-30 17:00:28.395549', '2021-11-30 17:00:28.395549', 980190962);
+INSERT INTO "orders" ("id", "name", "address", "email", "pay_type", "created_at", "updated_at") VALUES (980190962, 'Dave Thomas', 'MyText', 'dave@example.org', 0, '2021-11-30 17:00:28.398562', '2021-11-30 17:00:28.398562');
+INSERT INTO "orders" ("id", "name", "address", "email", "pay_type", "created_at", "updated_at") VALUES (298486374, 'MyString', 'MyText', 'MyString', 1, '2021-11-30 17:00:28.398562', '2021-11-30 17:00:28.398562')[0m
+  [1m[36mTRANSACTION (12.1ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0[0m
+  [1m[35m (0.2ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+------------------------------
+OrderMailerTest: test_received
+------------------------------
+  [1m[36mOrder Load (0.2ms)[0m  [1m[34mSELECT "orders".* FROM "orders" WHERE "orders"."id" = ? LIMIT ?[0m  [["id", 980190962], ["LIMIT", 1]]
+  Rendering layout layouts/mailer.html.erb
+  Rendering order_mailer/received.html.erb within layouts/mailer
+  Rendered order_mailer/received.html.erb within layouts/mailer (Duration: 0.9ms | Allocations: 264)
+  Rendered layout layouts/mailer.html.erb (Duration: 1.2ms | Allocations: 433)
+  Rendering layout layouts/mailer.text.erb
+  Rendering order_mailer/received.text.erb within layouts/mailer
+  Rendered order_mailer/received.text.erb within layouts/mailer (Duration: 17.4ms | Allocations: 2954)
+  Rendered layout layouts/mailer.text.erb (Duration: 17.5ms | Allocations: 2994)
+OrderMailer#received: processed outbound mail in 35.7ms
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mrollback transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+-----------------------------
+OrderMailerTest: test_shipped
+-----------------------------
+  [1m[36mOrder Load (0.1ms)[0m  [1m[34mSELECT "orders".* FROM "orders" WHERE "orders"."id" = ? LIMIT ?[0m  [["id", 980190962], ["LIMIT", 1]]
+  Rendering layout layouts/mailer.html.erb
+  Rendering order_mailer/shipped.html.erb within layouts/mailer
+  [1m[36mLineItem Load (0.1ms)[0m  [1m[34mSELECT "line_items".* FROM "line_items" WHERE "line_items"."order_id" = ?[0m  [["order_id", 980190962]]
+  [1m[36mGame Load (0.3ms)[0m  [1m[34mSELECT "games".* FROM "games" WHERE "games"."id" = ? LIMIT ?[0m  [["id", 671447580], ["LIMIT", 1]]
+  Rendered collection of line_items/_line_item.html.erb [1 times] (Duration: 6.0ms | Allocations: 1452)
+  Rendered order_mailer/shipped.html.erb within layouts/mailer (Duration: 59.0ms | Allocations: 7599)
+  Rendered layout layouts/mailer.html.erb (Duration: 59.1ms | Allocations: 7639)
+OrderMailer#shipped: processed outbound mail in 60.9ms
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mrollback transaction[0m
+  [1m[35m (1.0ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ?[0m  [["key", "schema_sha1"]]
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA defer_foreign_keys[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mFixtures Load (0.6ms)[0m  [1m[31mDELETE FROM "carts";
+DELETE FROM "games";
+DELETE FROM "line_items";
+DELETE FROM "orders";
+INSERT INTO "carts" ("id", "created_at", "updated_at") VALUES (980190962, '2021-11-30 17:00:40.058666', '2021-11-30 17:00:40.058666');
+INSERT INTO "carts" ("id", "created_at", "updated_at") VALUES (298486374, '2021-11-30 17:00:40.058666', '2021-11-30 17:00:40.058666');
+INSERT INTO "games" ("id", "image", "title", "description", "genre", "price", "created_at", "updated_at") VALUES (980190962, 'MyString', 'MyString', 'MyText', 'MyString', 9.99, '2021-11-30 17:00:40.060609', '2021-11-30 17:00:40.060609');
+INSERT INTO "games" ("id", "image", "title", "description", "genre", "price", "created_at", "updated_at") VALUES (298486374, 'MyString', 'MyString', 'MyText', 'MyString', 9.99, '2021-11-30 17:00:40.060609', '2021-11-30 17:00:40.060609');
+INSERT INTO "line_items" ("id", "game_id", "cart_id", "created_at", "updated_at") VALUES (980190962, 298486374, 980190962, '2021-11-30 17:00:40.062334', '2021-11-30 17:00:40.062334');
+INSERT INTO "line_items" ("id", "game_id", "created_at", "updated_at", "order_id") VALUES (298486374, 671447580, '2021-11-30 17:00:40.062334', '2021-11-30 17:00:40.062334', 980190962);
+INSERT INTO "orders" ("id", "name", "address", "email", "pay_type", "created_at", "updated_at") VALUES (980190962, 'Dave Thomas', 'MyText', 'dave@example.org', 0, '2021-11-30 17:00:40.068227', '2021-11-30 17:00:40.068227');
+INSERT INTO "orders" ("id", "name", "address", "email", "pay_type", "created_at", "updated_at") VALUES (298486374, 'MyString', 'MyText', 'MyString', 1, '2021-11-30 17:00:40.068227', '2021-11-30 17:00:40.068227')[0m
+  [1m[36mTRANSACTION (11.7ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+------------------------------
+OrderMailerTest: test_received
+------------------------------
+  [1m[36mOrder Load (0.2ms)[0m  [1m[34mSELECT "orders".* FROM "orders" WHERE "orders"."id" = ? LIMIT ?[0m  [["id", 980190962], ["LIMIT", 1]]
+  Rendering layout layouts/mailer.html.erb
+  Rendering order_mailer/received.html.erb within layouts/mailer
+  Rendered order_mailer/received.html.erb within layouts/mailer (Duration: 0.5ms | Allocations: 264)
+  Rendered layout layouts/mailer.html.erb (Duration: 1.2ms | Allocations: 433)
+  Rendering layout layouts/mailer.text.erb
+  Rendering order_mailer/received.text.erb within layouts/mailer
+  [1m[36mLineItem Load (0.2ms)[0m  [1m[34mSELECT "line_items".* FROM "line_items" WHERE "line_items"."order_id" = ?[0m  [["order_id", 980190962]]
+  [1m[36mGame Load (0.3ms)[0m  [1m[34mSELECT "games".* FROM "games" WHERE "games"."id" = ? LIMIT ?[0m  [["id", 671447580], ["LIMIT", 1]]
+  Rendered collection of line_items/_line_item.text.erb [1 times] (Duration: 5.6ms | Allocations: 1693)
+  Rendered order_mailer/received.text.erb within layouts/mailer (Duration: 22.5ms | Allocations: 7890)
+  Rendered layout layouts/mailer.text.erb (Duration: 22.6ms | Allocations: 7930)
+OrderMailer#received: processed outbound mail in 40.3ms
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mrollback transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+-----------------------------
+OrderMailerTest: test_shipped
+-----------------------------
+  [1m[36mOrder Load (0.1ms)[0m  [1m[34mSELECT "orders".* FROM "orders" WHERE "orders"."id" = ? LIMIT ?[0m  [["id", 980190962], ["LIMIT", 1]]
+  Rendering layout layouts/mailer.html.erb
+  Rendering order_mailer/shipped.html.erb within layouts/mailer
+  [1m[36mLineItem Load (0.1ms)[0m  [1m[34mSELECT "line_items".* FROM "line_items" WHERE "line_items"."order_id" = ?[0m  [["order_id", 980190962]]
+  [1m[36mGame Load (0.1ms)[0m  [1m[34mSELECT "games".* FROM "games" WHERE "games"."id" = ? LIMIT ?[0m  [["id", 671447580], ["LIMIT", 1]]
+  Rendered collection of line_items/_line_item.html.erb [1 times] (Duration: 3.2ms | Allocations: 1014)
+  Rendered order_mailer/shipped.html.erb within layouts/mailer (Duration: 4.8ms | Allocations: 1527)
+  Rendered layout layouts/mailer.html.erb (Duration: 4.9ms | Allocations: 1567)
+OrderMailer#shipped: processed outbound mail in 6.4ms
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mrollback transaction[0m
+  [1m[35m (0.5ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.2ms)[0m  [1m[34mSELECT "ar_internal_metadata"."value" FROM "ar_internal_metadata" WHERE "ar_internal_metadata"."key" = ?[0m  [["key", "schema_sha1"]]
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT sqlite_version(*)[0m
+  [1m[35m (0.1ms)[0m  [1m[34mSELECT "schema_migrations"."version" FROM "schema_migrations" ORDER BY "schema_migrations"."version" ASC[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA foreign_keys[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA defer_foreign_keys[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA defer_foreign_keys = ON[0m
+  [1m[35m (0.0ms)[0m  [1m[35mPRAGMA foreign_keys = OFF[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+  [1m[36mFixtures Load (0.5ms)[0m  [1m[31mDELETE FROM "carts";
+DELETE FROM "games";
+DELETE FROM "line_items";
+DELETE FROM "orders";
+INSERT INTO "carts" ("id", "created_at", "updated_at") VALUES (980190962, '2021-11-30 17:01:28.221665', '2021-11-30 17:01:28.221665');
+INSERT INTO "carts" ("id", "created_at", "updated_at") VALUES (298486374, '2021-11-30 17:01:28.221665', '2021-11-30 17:01:28.221665');
+INSERT INTO "games" ("id", "image", "title", "description", "genre", "price", "created_at", "updated_at") VALUES (980190962, 'MyString', 'MyString', 'MyText', 'MyString', 9.99, '2021-11-30 17:01:28.227299', '2021-11-30 17:01:28.227299');
+INSERT INTO "games" ("id", "image", "title", "description", "genre", "price", "created_at", "updated_at") VALUES (298486374, 'MyString', 'MyString', 'MyText', 'MyString', 9.99, '2021-11-30 17:01:28.227299', '2021-11-30 17:01:28.227299');
+INSERT INTO "line_items" ("id", "game_id", "cart_id", "created_at", "updated_at") VALUES (980190962, 298486374, 980190962, '2021-11-30 17:01:28.231111', '2021-11-30 17:01:28.231111');
+INSERT INTO "line_items" ("id", "game_id", "created_at", "updated_at", "order_id") VALUES (298486374, 671447580, '2021-11-30 17:01:28.231111', '2021-11-30 17:01:28.231111', 980190962);
+INSERT INTO "orders" ("id", "name", "address", "email", "pay_type", "created_at", "updated_at") VALUES (980190962, 'Dave Thomas', 'MyText', 'dave@example.org', 0, '2021-11-30 17:01:28.233010', '2021-11-30 17:01:28.233010');
+INSERT INTO "orders" ("id", "name", "address", "email", "pay_type", "created_at", "updated_at") VALUES (298486374, 'MyString', 'MyText', 'MyString', 1, '2021-11-30 17:01:28.233010', '2021-11-30 17:01:28.233010')[0m
+  [1m[36mTRANSACTION (13.2ms)[0m  [1m[36mcommit transaction[0m
+  [1m[35m (0.2ms)[0m  [1m[35mPRAGMA defer_foreign_keys = 0[0m
+  [1m[35m (0.1ms)[0m  [1m[35mPRAGMA foreign_keys = 1[0m
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[36mbegin transaction[0m
+------------------------------
+OrderMailerTest: test_received
+------------------------------
+  [1m[36mOrder Load (0.2ms)[0m  [1m[34mSELECT "orders".* FROM "orders" WHERE "orders"."id" = ? LIMIT ?[0m  [["id", 980190962], ["LIMIT", 1]]
+  Rendering layout layouts/mailer.html.erb
+  Rendering order_mailer/received.html.erb within layouts/mailer
+  Rendered order_mailer/received.html.erb within layouts/mailer (Duration: 0.6ms | Allocations: 264)
+  Rendered layout layouts/mailer.html.erb (Duration: 0.9ms | Allocations: 433)
+  Rendering layout layouts/mailer.text.erb
+  Rendering order_mailer/received.text.erb within layouts/mailer
+  [1m[36mLineItem Load (0.2ms)[0m  [1m[34mSELECT "line_items".* FROM "line_items" WHERE "line_items"."order_id" = ?[0m  [["order_id", 980190962]]
+  [1m[36mGame Load (0.2ms)[0m  [1m[34mSELECT "games".* FROM "games" WHERE "games"."id" = ? LIMIT ?[0m  [["id", 671447580], ["LIMIT", 1]]
+  Rendered collection of line_items/_line_item.text.erb [1 times] (Duration: 5.3ms | Allocations: 1693)
+  Rendered order_mailer/received.text.erb within layouts/mailer (Duration: 19.4ms | Allocations: 7885)
+  Rendered layout layouts/mailer.text.erb (Duration: 19.5ms | Allocations: 7925)
+OrderMailer#received: processed outbound mail in 37.1ms
+  [1m[36mTRANSACTION (0.1ms)[0m  [1m[31mrollback transaction[0m
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[36mbegin transaction[0m
+-----------------------------
+OrderMailerTest: test_shipped
+-----------------------------
+  [1m[36mOrder Load (0.1ms)[0m  [1m[34mSELECT "orders".* FROM "orders" WHERE "orders"."id" = ? LIMIT ?[0m  [["id", 980190962], ["LIMIT", 1]]
+  Rendering layout layouts/mailer.html.erb
+  Rendering order_mailer/shipped.html.erb within layouts/mailer
+  [1m[36mLineItem Load (0.1ms)[0m  [1m[34mSELECT "line_items".* FROM "line_items" WHERE "line_items"."order_id" = ?[0m  [["order_id", 980190962]]
+  [1m[36mGame Load (0.0ms)[0m  [1m[34mSELECT "games".* FROM "games" WHERE "games"."id" = ? LIMIT ?[0m  [["id", 671447580], ["LIMIT", 1]]
+  Rendered collection of line_items/_line_item.html.erb [1 times] (Duration: 3.3ms | Allocations: 1014)
+  Rendered order_mailer/shipped.html.erb within layouts/mailer (Duration: 4.8ms | Allocations: 1527)
+  Rendered layout layouts/mailer.html.erb (Duration: 4.9ms | Allocations: 1567)
+OrderMailer#shipped: processed outbound mail in 6.2ms
+  [1m[36mTRANSACTION (0.0ms)[0m  [1m[31mrollback transaction[0m
