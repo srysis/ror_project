@@ -1,0 +1,8 @@
+<h3>GamesShop Order Shipped</h3>
+<p>
+  Your order has been finally shipped! This is to remind you of what you have ordered:
+</p>
+<table>
+<tr><th colspan="2">Qty</th><th>Description</th></tr>
+  <%= render @order.line_items -%>
+</table>
